@@ -1,0 +1,60 @@
+﻿<UserControl
+    x:Class="IOTOIApp.Control.SensorMain"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="_parent"
+    xmlns:local="using:IOTOIApp.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Width="350" Height="425">
+
+    <Grid>
+        <Border CornerRadius="0 0 15 15" BorderThickness="1" BorderBrush="White" Background="Black">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="120" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="100" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           x:Name="Title"
+                           FontSize="20"
+                           VerticalAlignment="Center" HorizontalAlignment="Center"
+                           Foreground="White" />
+
+                <!--<TextBlock Grid.Row="1"
+                           x:Name="TitleIcon"
+                           VerticalAlignment="Top" HorizontalAlignment="Center"
+                           Foreground="White"
+                           FontFamily="{StaticResource IconFontFamily}"
+                           FontSize="100"/>-->
+                <Image  Grid.Row="1"
+                        x:Name="MotionIcon"
+                        Source="/Assets/Icons/motion-icon.png"
+                        Width="110" Height="125"
+                        Stretch="Fill"
+                        VerticalAlignment="Top" HorizontalAlignment="Center"
+                        Visibility="Collapsed" />
+
+                <Image  Grid.Row="1"
+                        x:Name="DoorIcon"
+                        Source="/Assets/Icons/door-icon.png"
+                        Width="82" Height="122"
+                        Stretch="Fill"
+                        VerticalAlignment="Top" HorizontalAlignment="Center"
+                        Visibility="Collapsed" />
+
+                <Button Grid.Row="2"
+                        Content="Detail"
+                        FontSize="18"
+                        Height="40" Width="250"
+                        VerticalAlignment="Top" HorizontalAlignment="Center"                        
+                        Foreground="#ffcb00"
+                        Style="{StaticResource DetailButtonStyle}"
+                        Command="{x:Bind ViewModel.GoSensorDetailPageCommand}" CommandParameter="{Binding ElementName=_parent, Path=Tag}"/>
+            </Grid>
+        </Border>
+    </Grid>
+</UserControl>

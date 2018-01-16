@@ -1,0 +1,583 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProjectGuid>{DBB92287-E3A8-47E6-A0EA-F14424EA5707}</ProjectGuid>
+    <OutputType>AppContainerExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>IOTOIApp</RootNamespace>
+    <AssemblyName>IOTOIApp</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
+    <PackageCertificateKeyFile>IOTOIApp_TemporaryKey.pfx</PackageCertificateKeyFile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x86</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+    <UseDotNetNativeToolchain>false</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.0.5</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Xaml.Behaviors.Uwp.Managed">
+      <Version>2.0.0</Version>
+    </PackageReference>
+    <!-- Nuget package references -->
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="MvvmLight">
+      <Version>5.3.0</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>10.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="RavinduL.LocalNotifications">
+      <Version>2.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <PRIResource Include="Strings\en-us\Resources.resw" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Activation\ActivationHandler.cs" />
+    <Compile Include="Control\CCTVList.xaml.cs">
+      <DependentUpon>CCTVList.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Fan.xaml.cs">
+      <DependentUpon>Fan.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\SensorMain.xaml.cs">
+      <DependentUpon>SensorMain.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Setting.xaml.cs">
+      <DependentUpon>Setting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Temperature.xaml.cs">
+      <DependentUpon>Temperature.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Global.cs" />
+    <Compile Include="Helpers\CortanaHelper.cs" />
+    <Compile Include="Helpers\Json.cs" />
+    <Compile Include="Helpers\SettingsStorageExtensions.cs" />
+    <Compile Include="Models\CmxApp.cs" />
+    <Compile Include="Models\Sensor.cs" />
+    <Compile Include="Models\Thermostat.cs" />
+    <Compile Include="Models\Weather.cs" />
+    <Compile Include="Nest\DeviceParse.cs" />
+    <Compile Include="Nest\Structure.cs" />
+    <Compile Include="Nest\ThermostatAPI.cs" />
+    <Compile Include="Nest\ThermostatDevice.cs" />
+    <Compile Include="Presenters\BluetoothDisplayHelpers.cs" />
+    <Compile Include="Presenters\LanguageManager.cs" />
+    <Compile Include="Presenters\NetworkPresenter.cs" />
+    <Compile Include="RadialSlider\CheckPin.xaml.cs">
+      <DependentUpon>CheckPin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RadialSlider\RadialSlider.xaml.cs">
+      <DependentUpon>RadialSlider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="RadialSlider\ScalePin.xaml.cs">
+      <DependentUpon>ScalePin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\ActivationService.cs" />
+    <Compile Include="Activation\DefaultLaunchActivationHandler.cs" />
+    <Compile Include="Services\ApixuWeatherService.cs" />
+    <Compile Include="Services\CCTVTypeService.cs" />
+    <Compile Include="Services\CommonService.cs" />
+    <Compile Include="Services\ZigbeeDeviceService.cs" />
+    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\NavigationServiceEx.cs" />
+    <Compile Include="Services\OpenWeatherMapProxy.cs" />
+    <Compile Include="Services\SensorDeviceService.cs" />
+    <Compile Include="Services\ThemeSelectorService.cs" />
+    <Compile Include="Utils\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Utils\CCTV\AESEncodedFIeldConverter.cs" />
+    <Compile Include="Utils\CCTV\ValidationStatusConverter.cs" />
+    <Compile Include="Utils\Extension.cs" />
+    <Compile Include="Utils\Light\BooleanToVisibilityConverter.cs" />
+    <Compile Include="Utils\ConverHexToColor.cs" />
+    <Compile Include="Utils\Light\DimmingVisibilityConverter.cs" />
+    <Compile Include="Utils\Light\LightColorConverter.cs" />
+    <Compile Include="Utils\Light\LightListViewTemplateSelector.cs" />
+    <Compile Include="Utils\Light\LightToggleVisibilityConverter.cs" />
+    <Compile Include="Utils\Plug\DeviceIndexConverter.cs" />
+    <Compile Include="Utils\Plug\PlugColorConverter.cs" />
+    <Compile Include="Utils\Plug\PlugListViewTemplateSelector.cs" />
+    <Compile Include="Utils\Plug\PlugToggleVisibilityConverter.cs" />
+    <Compile Include="Utils\UIElementUtil.cs" />
+    <Compile Include="Utils\NativeTimeMethods.cs" />
+    <Compile Include="Utils\NegateBooleanConverter.cs" />
+    <Compile Include="Utils\VoiceCommandHandler.cs" />
+    <Compile Include="Utils\WeatherListViewDataTemplateSelector.cs" />
+    <Compile Include="Utils\ZWaveListViewDataTemplateSelector.cs" />
+    <Compile Include="Utils\ZigbeeStatusConverter.cs" />
+    <Compile Include="Utils\ZigbeeListViewDataTemplateSelector.cs" />
+    <Compile Include="Utils\WifiListViewDataTemplateSelector.cs" />
+    <Compile Include="Utils\MacAddressConverter.cs" />
+    <Compile Include="Utils\NetworkAvailabilty.cs" />
+    <Compile Include="Utils\WifiGlyphConverter.cs" />
+    <Compile Include="Utils\XBee.cs" />
+    <Compile Include="ViewModels\AppListViewModel.cs" />
+    <Compile Include="ViewModels\CCTV\CCTVListViewModel.cs" />
+    <Compile Include="ViewModels\CCTV\CCTVMainViewModel.cs" />
+    <Compile Include="ViewModels\CCTV\CCTVSettingViewModel.cs" />
+    <Compile Include="ViewModels\FooterViewModel.cs" />
+    <Compile Include="ViewModels\DashboardViewModel.cs" />
+    <Compile Include="ViewModels\Light\LightMainViewModel.cs" />
+    <Compile Include="ViewModels\Light\LightSettingViewModel.cs" />
+    <Compile Include="ViewModels\Plug\PlugMainViewModel.cs" />
+    <Compile Include="ViewModels\Plug\PlugSettingViewModel.cs" />
+    <Compile Include="ViewModels\RightPanelViewModel.cs" />
+    <Compile Include="ViewModels\HeaderViewModel.cs" />
+    <Compile Include="ViewModels\CortanaViewModel.cs" />
+    <Compile Include="ViewModels\MainViewModel.cs" />
+    <Compile Include="ViewModels\NotificationViewModel.cs" />
+    <Compile Include="ViewModels\PowerViewModel.cs" />
+    <Compile Include="ViewModels\Sensor\SensorMainViewModel.cs" />
+    <Compile Include="ViewModels\Sensor\SensorDetailViewModel.cs" />
+    <Compile Include="ViewModels\Sensor\SensorSettingViewModel.cs" />
+    <Compile Include="ViewModels\SettingBluetoothViewModel.cs" />
+    <Compile Include="ViewModels\SettingNetworkViewModel.cs" />
+    <Compile Include="ViewModels\SettingsViewModel.cs" />
+    <Compile Include="ViewModels\SettingZWaveViewModel.cs" />
+    <Compile Include="ViewModels\SettingZigbeeViewModel.cs" />
+    <Compile Include="ViewModels\ShellNavigationItem.cs" />
+    <Compile Include="ViewModels\ShellViewModel.cs" />
+    <Compile Include="ViewModels\Thermostat\ThermostatMainViewModel.cs" />
+    <Compile Include="ViewModels\ViewModelLocator.cs" />
+    <Compile Include="Views\AppListPage.xaml.cs">
+      <DependentUpon>AppListPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CCTV\CCTVMainPage.xaml.cs">
+      <DependentUpon>CCTVMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CCTV\CCTVSettingPage.xaml.cs">
+      <DependentUpon>CCTVSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\FooterPage.xaml.cs">
+      <DependentUpon>FooterPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\HeaderPage.xaml.cs">
+      <DependentUpon>HeaderPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\CortanaPage.xaml.cs">
+      <DependentUpon>CortanaPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Light\LightMainPage.xaml.cs">
+      <DependentUpon>LightMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Light\LightSettingPage.xaml.cs">
+      <DependentUpon>LightSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\NotificationPage.xaml.cs">
+      <DependentUpon>NotificationPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Plug\PlugMainPage.xaml.cs">
+      <DependentUpon>PlugMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Plug\PlugSettingPage.xaml.cs">
+      <DependentUpon>PlugSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PowerPage.xaml.cs">
+      <DependentUpon>PowerPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RightPanelPage.xaml.cs">
+      <DependentUpon>RightPanelPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sensor\SensorMainPage.xaml.cs">
+      <DependentUpon>SensorMainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sensor\SensorDetailPage.xaml.cs">
+      <DependentUpon>SensorDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Sensor\SensorSettingPage.xaml.cs">
+      <DependentUpon>SensorSettingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingBasicPreferences.xaml.cs">
+      <DependentUpon>SettingBasicPreferences.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingBluetooth.xaml.cs">
+      <DependentUpon>SettingBluetooth.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingCortana.xaml.cs">
+      <DependentUpon>SettingCortana.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingNetwork.xaml.cs">
+      <DependentUpon>SettingNetwork.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingsPage.xaml.cs">
+      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingZWave.xaml.cs">
+      <DependentUpon>SettingZWave.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SettingZigbee.xaml.cs">
+      <DependentUpon>SettingZigbee.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ShellPage.xaml.cs">
+      <DependentUpon>ShellPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Thermostat\ThermostatMainPage.xaml.cs">
+      <DependentUpon>ThermostatMainPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Control\CCTVList.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Fan.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\SensorMain.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Setting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Temperature.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialSlider\CheckPin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialSlider\RadialSlider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="RadialSlider\ScalePin.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Page.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\_Colors.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\_FontSizes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\_Thickness.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Styles\TextBlock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Views\AppListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CCTV\CCTVMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CCTV\CCTVSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\FooterPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\HeaderPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\CortanaPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Light\LightMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Light\LightSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\MainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\NotificationPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Plug\PlugMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Plug\PlugSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PowerPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\RightPanelPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Sensor\SensorMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Sensor\SensorDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Sensor\SensorSettingPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingBasicPreferences.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingBluetooth.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingCortana.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingNetwork.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SettingsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingZWave.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\SettingZigbee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ShellPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Thermostat\ThermostatMainPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <AppxManifest Include="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </AppxManifest>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Helpers\ResourceExtensions.cs" />
+    <Compile Include="Helpers\Singleton.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\IOTOI.Common\IOTOI.Common\IOTOI.Common.csproj">
+      <Project>{cff72af7-ead8-490c-8d87-fc622b4e7355}</Project>
+      <Name>IOTOI.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOTOI.Model\IOTOI.Model.csproj">
+      <Project>{623f30e8-bbb4-44e4-b2b4-77a76c629e2d}</Project>
+      <Name>IOTOI.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\IOTOI.VoiceCommands\IOTOI.VoiceCommands.csproj">
+      <Project>{5086bb98-7de8-424a-98f5-c5becb549a2b}</Project>
+      <Name>IOTOI.VoiceCommands</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Assets\Background.png" />
+    <Content Include="Assets\Icons\Button.png" />
+    <Content Include="Assets\Icons\door-icon.png" />
+    <Content Include="Assets\Icons\door-none.png" />
+    <Content Include="Assets\Icons\door-occurrence.png" />
+    <Content Include="Assets\Icons\door-setting.png" />
+    <Content Include="Assets\Icons\heat-down-icon.png" />
+    <Content Include="Assets\Icons\heat-icon-off.png" />
+    <Content Include="Assets\Icons\heat-icon-on.png" />
+    <Content Include="Assets\Icons\heat-up-icon.png" />
+    <Content Include="Assets\Icons\motion-icon.png" />
+    <Content Include="Assets\Icons\motion-none.png" />
+    <Content Include="Assets\Icons\motion-occurrence.png" />
+    <Content Include="Assets\Icons\motion-setting.png" />
+    <Content Include="Assets\Icons\pan-icon-off.png" />
+    <Content Include="Assets\Icons\pan-icon-on.png" />
+    <Content Include="Assets\Icons\refresh.png" />
+    <Content Include="Assets\Icons\toggle-off.png" />
+    <Content Include="Assets\Icons\toggle-on.png" />
+    <Content Include="Assets\svg\apps-icon.svg" />
+    <Content Include="Assets\svg\cortana-icon.svg" />
+    <Content Include="Assets\svg\down-button.svg" />
+    <Content Include="Assets\svg\plug-icon-on.svg" />
+    <Content Include="Assets\svg\plug-icon.svg" />
+    <Content Include="Assets\svg\thermostat-icon.svg" />
+    <Content Include="Assets\svg\up-button.svg" />
+    <Content Include="Assets\svg\video-play-button.svg" />
+    <Content Include="Properties\Default.rd.xml" />
+    <Content Include="Assets\LockScreenLogo.scale-200.png" />
+    <Content Include="Assets\SplashScreen.scale-200.png" />
+    <Content Include="Assets\Square150x150Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.scale-200.png" />
+    <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.scale-200.png" />
+    <Content Include="IOTOIAppCommands.xml">
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+    <Content Include="Assets\Fonts\weathericons-regular-webfont.ttf" />
+    <Content Include="Assets\Fonts\IOTMDL2.1.35.ttf" />
+    <None Include="IOTOIApp_TemporaryKey.pfx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <!-- <Import Project="DeployConfigFiles.targets" /> -->
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)\..\Common\ZWave\Platform\open-zwave\config\**\*.*">
+      <Link>config\%(RecursiveDir)%(Filename)%(Extension)</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsIoT, Version=10.0.16299.0">
+      <Name>Windows IoT Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

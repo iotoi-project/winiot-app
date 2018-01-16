@@ -1,0 +1,95 @@
+<Page
+    x:Class="IOTOIApp.Views.AppListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding AppListViewModel, Source={StaticResource Locator}}"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:models="using:IOTOIApp.Models"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="AppListTemplate" x:DataType="models:CmxApp">
+            <Grid Width="110" Height="110" Margin="10">
+                <Ellipse Fill="Black" Opacity="0.45"/>
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock HorizontalAlignment="Center" Text="{x:Bind AppIcon}" FontFamily="Segoe MDL2 Assets" FontSize="38" Visibility="{x:Bind TextIconVisibility}"/>
+                    <Image Stretch="None" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image.Source>
+                            <SvgImageSource RasterizePixelHeight="44" RasterizePixelWidth="32" UriSource="{x:Bind AppIconSvgUri}" />
+                        </Image.Source>
+                    </Image>
+                    <TextBlock HorizontalAlignment="Center" Text="{x:Bind AppName}" FontSize="13" Margin="0, 7, 0, 0"/>
+                </StackPanel>
+                <i:Interaction.Behaviors>
+                    <ic:EventTriggerBehavior EventName="Tapped">
+                        <ic:InvokeCommandAction Command="{x:Bind AppLinkCommand}" CommandParameter="{x:Bind AppLinkParam}"/>
+                    </ic:EventTriggerBehavior>
+                </i:Interaction.Behaviors>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AppListPivotHeaderTemplate">
+            <TextBlock Text="&#xE1F5;" FontFamily="Segoe MDL2 Assets" FontSize="10" Margin="-5"/>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="AppListPivotTemplate" x:DataType="models:CmxAppPivot">
+            <StackPanel  MinHeight="400">
+                <GridView ItemsSource="{x:Bind PivotAppList}" ItemTemplate="{StaticResource AppListTemplate}" >
+                    <GridView.ItemContainerStyle>
+                        <Style TargetType="GridViewItem">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="GridViewItem">
+                                        <GridViewItemPresenter SelectedBackground="Transparent"/>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </GridView.ItemContainerStyle>
+                    <GridView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid MaximumRowsOrColumns="4" Orientation="Horizontal" HorizontalChildrenAlignment="Stretch" VerticalChildrenAlignment="Stretch">
+                            </WrapGrid>
+                        </ItemsPanelTemplate>
+                    </GridView.ItemsPanel>
+                </GridView>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid Margin="-110, 0, 0, 0">
+        <StackPanel Background="Black" Opacity="0.5"></StackPanel>
+        <ScrollViewer>
+            <StackPanel Padding="120, 100, 120, 0">
+                <Pivot Grid.Row="1" x:Name="AppListPivot"
+                       ItemsSource="{x:Bind ViewModel.PivotAppListItems}"
+                       Style="{StaticResource AppListPivotStyle}"
+                       HeaderTemplate="{StaticResource AppListPivotHeaderTemplate}"
+                       ItemTemplate="{StaticResource AppListPivotTemplate}"
+                      >
+                </Pivot>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

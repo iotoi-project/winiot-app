@@ -1,0 +1,214 @@
+<Page
+    x:Class="IOTOIApp.Views.SettingsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{Binding SettingsViewModel, Source={StaticResource Locator}}"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:views="using:IOTOIApp.Views"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Name="EmptyRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="MinWidth" Value="60" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+                            <Rectangle x:Name="ButtonEllipse" Fill="Transparent" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                          Content="{TemplateBinding Content}"
+                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Margin="{TemplateBinding Padding}"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Grid.Column="1"
+                          AutomationProperties.AccessibilityView="Raw"
+                          TextWrapping="Wrap" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonEllipse" />
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="DarkGray" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonEllipse" />
+                                            <!--<ColorAnimation Duration="0" To="Green" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Content" />
+                                            <ColorAnimation Duration="0" To="Green" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="Glyph" />-->
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="Transparent" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonEllipse" />
+                                            <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Rectangle.Stroke).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonEllipse" />
+                                            <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
+    <Grid Margin="-60, 0, 0, 0">
+        <Grid Margin="{StaticResource MediumLeftRightMargin}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="8*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="240"/>
+                <ColumnDefinition Width="2"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Button Content="{StaticResource IconBack}" Background="Transparent" BorderThickness="0" BorderBrush="Transparent"  FontFamily="{StaticResource IconFontFamily}" FontSize="15"
+                    Command="{x:Bind ViewModel.BackButtonClickedCommand}" Margin="0,0,20,0" VerticalAlignment="Center"/>
+                
+                <TextBlock
+                x:Uid="Settings_Title"
+                x:Name="TitlePage"
+                Style="{StaticResource PageTitleStyle}" />
+            </StackPanel>
+            
+            <!--<Rectangle Grid.Column="1" Grid.Row="1" Fill="Gray" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
+
+            <!--<ListView x:Name="SettingsChoice" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="SettingsChoice_ItemClick" Visibility="Collapsed" >
+                <ListViewItem HorizontalAlignment="Stretch" Height="48" IsSelected="True">
+                    <TextBlock x:Name="PreferencesListViewItem" x:Uid="Settings_Basic"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
+                    <TextBlock x:Name="NetworkListViewItem" x:Uid="Settings_Network"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
+                    <TextBlock x:Name="ZigbeeListViewItem" x:Uid="Settings_Zigbee"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
+                    <TextBlock x:Name="BluetoothListViewItem" x:Uid="Settings_Bluetooth"/>
+                </ListViewItem>
+                <ListViewItem HorizontalAlignment="Stretch" Height="48">
+                    <TextBlock x:Name="CortanaListViewItem" x:Uid="Settings_Cortana"/>
+                </ListViewItem>
+            </ListView>-->
+
+            <Viewbox Grid.Column="0" Grid.Row="0" MaxWidth="174" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 70 10 0">
+                <StackPanel>
+                    <RadioButton x:Name="SettingPreferences" Width="174" Height="78" Background="#a0000000" Style="{StaticResource EmptyRadioButtonStyle}" Margin="0 0 0 16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Checked="Settings_Checked">
+                        <RadioButton.Content>
+                            <Grid>
+                                <Border BorderBrush="#ffcb00" BorderThickness="2" Height="2" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding Path=IsChecked, ElementName=SettingPreferences}" />
+                                <TextBlock x:Uid="Settings_Preferences" Foreground="#ff696969" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock x:Uid="Settings_Preferences" Foreground="#ffcb00" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding Path=IsChecked, ElementName=SettingPreferences}" />
+                            </Grid>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+                    <RadioButton x:Name="SettingNetwork" Width="174" Height="78" Background="#a0000000" Style="{StaticResource EmptyRadioButtonStyle}" Margin="0 0 0 16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Checked="Settings_Checked">
+                        <RadioButton.Content>
+                            <Grid>
+                                <Border BorderBrush="#ffcb00" BorderThickness="2" Height="2" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding Path=IsChecked, ElementName=SettingNetwork}" />
+                                <TextBlock x:Uid="Settings_Network" Foreground="#ff696969" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock x:Uid="Settings_Network" Foreground="#ffcb00" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding Path=IsChecked, ElementName=SettingNetwork}" />
+                            </Grid>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+                    <RadioButton x:Name="SettingBluetooth" Width="174" Height="78" Background="#a0000000" Style="{StaticResource EmptyRadioButtonStyle}" Margin="0 0 0 16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Checked="Settings_Checked">
+                        <RadioButton.Content>
+                            <Grid>
+                                <Border BorderBrush="#ffcb00" BorderThickness="2" Height="2" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding Path=IsChecked, ElementName=SettingBluetooth}" />
+                                <TextBlock x:Uid="Settings_Bluetooth" Foreground="#ff696969" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock x:Uid="Settings_Bluetooth" Foreground="#ffcb00" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding Path=IsChecked, ElementName=SettingBluetooth}" />
+                            </Grid>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+                    <RadioButton x:Name="SettingZigbee" Width="174" Height="78" Background="#a0000000" Style="{StaticResource EmptyRadioButtonStyle}" Margin="0 0 0 16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Checked="Settings_Checked">
+                        <RadioButton.Content>
+                            <Grid>
+                                <Border BorderBrush="#ffcb00" BorderThickness="2" Height="2" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding Path=IsChecked, ElementName=SettingZigbee}" />
+                                <TextBlock x:Uid="Settings_Zigbee" Foreground="#ff696969" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock x:Uid="Settings_Zigbee" Foreground="#ffcb00" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding Path=IsChecked, ElementName=SettingZigbee}" />
+                            </Grid>
+                        </RadioButton.Content>
+                    </RadioButton>
+
+                    <RadioButton x:Name="SettingZWave" Width="174" Height="78" Background="#a0000000" Style="{StaticResource EmptyRadioButtonStyle}" Margin="0 0 0 16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Checked="Settings_Checked">
+                        <RadioButton.Content>
+                            <Grid>
+                                <Border BorderBrush="#ffcb00" BorderThickness="2" Height="2" VerticalAlignment="Top" HorizontalAlignment="Stretch" Visibility="{Binding Path=IsChecked, ElementName=SettingZWave}" />
+                                <TextBlock x:Uid="Settings_ZWave" Foreground="#ff696969" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                <TextBlock x:Uid="Settings_ZWave" Foreground="#ffcb00" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{Binding Path=IsChecked, ElementName=SettingZWave}" />
+                            </Grid>
+                        </RadioButton.Content>
+                    </RadioButton>
+                </StackPanel>
+            </Viewbox>
+            
+
+            <Grid x:Name="SettingContents" Grid.Column="2" Grid.Row="0" Margin="0 70 30 0">
+                <Grid x:Name="BasicPreferencesGrid">
+                    <views:SettingBasicPreferences x:Name="SettingBasicPreferencesControl" Margin="0 0 0 10"/>
+                </Grid>
+               <Grid x:Name="NetworkGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                   <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 0 0 10">
+                       <views:SettingNetwork x:Name="SettingNetworkControl"/>
+                   </ScrollViewer>
+               </Grid>
+               <Grid x:Name="BluetoothGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                    <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 0 0 10">
+                        <views:SettingBluetooth x:Name="SettingBluetoothControl"/>
+                    </ScrollViewer>
+                </Grid>
+                <Grid x:Name="ZigbeeGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                    <views:SettingZigbee x:Name="SettingZigbeeControl" Margin="0 0 0 10"/>
+                </Grid>
+                <Grid x:Name="ZWaveGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                    <views:SettingZWave x:Name="SettingZWaveControl" Margin="0 0 0 10"/>
+                </Grid>
+            </Grid>
+            
+        </Grid>
+
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

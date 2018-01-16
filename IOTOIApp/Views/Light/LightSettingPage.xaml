@@ -1,0 +1,126 @@
+﻿<Page
+    x:Class="IOTOIApp.Views.Light.LightSettingPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:IOTOI.Model.ZigBee"
+    Style="{StaticResource PageStyle}"
+    DataContext="{Binding LightSettingViewModel, Source={StaticResource Locator}}"
+    xmlns:ic="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:i="using:Microsoft.Xaml.Interactivity"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <DataTemplate x:Key="SettingDeviceListTemplate" x:DataType="models:ZigBeeEndDevice">
+            <Viewbox MaxWidth="780">
+                <Grid Name="ChildGrid" Margin="10">
+                    <StackPanel CornerRadius="0, 15, 15, 0" Background="Black" Opacity="0.63"/>
+                    <StackPanel>
+                        <ListView x:Name="SettingLightListView"
+                                   ItemsSource="{Binding EndPoints, Mode=OneWay}"
+                                  ItemClick="SettingLightListView_ItemClick"
+                                  IsItemClickEnabled="True">
+                            <i:Interaction.Behaviors>
+                                <ic:EventTriggerBehavior EventName="Tapped">
+                                    <ic:InvokeCommandAction Command="{Binding ElementName=SettingDeviceListView, Path=DataContext.LightSelectionChangedCommand}"
+                            CommandParameter="{Binding}"/>
+                                </ic:EventTriggerBehavior>
+                            </i:Interaction.Behaviors>
+                            <ListView.ItemTemplate>
+                                <DataTemplate x:DataType="models:ZigBeeEndPoint">
+                                    <StackPanel x:Name="LightListStackPanel" 
+                                            Orientation="{Binding Path=Orientation, ElementName=SetPanelOrientation}" Height="78" Padding="20, 15">
+                                        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Width="200">
+                                            <TextBlock Name="CircleIcon" Text="&#xE1F5;" FontFamily="Segoe MDL2 Assets" FontSize="22" Margin="2, 0, 17, 0" Foreground="DimGray"/>
+                                            <TextBlock HorizontalAlignment="Stretch" Text="{x:Bind CustomName, Mode=OneWay}"/>
+                                        </StackPanel>
+
+                                        <TextBox x:Name="CustomName" Text="{x:Bind CustomName, Mode=TwoWay}"  VerticalContentAlignment="Center" PlaceholderText="Rename" Height="44" Width="500"
+                                                 GotFocus="CustomName_GotFocus"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="Template">
+                                        <Setter.Value>
+                                            <ControlTemplate TargetType="ListViewItem">
+                                                <ListViewItemPresenter CheckBrush="{ThemeResource SystemControlBackgroundBaseMediumHighBrush}"/>
+                                            </ControlTemplate>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </StackPanel>
+                </Grid>
+            </Viewbox>
+            
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid x:Name="ContentArea" Margin="{StaticResource ContentAreaMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" VerticalAlignment="Bottom" Padding="30, 0, 0, 0">
+            <Button Content="{StaticResource IconBack}" Background="Transparent"  FontFamily="{StaticResource IconFontFamily}" FontSize="30"
+                    Command="{x:Bind ViewModel.BackButtonClickedCommand}"/>
+        </StackPanel>
+
+            <Grid Grid.Row="1" HorizontalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="50"/>
+                </Grid.RowDefinitions>
+                <ListView x:Name="SettingDeviceListView" Grid.Row="0"
+                    ScrollViewer.VerticalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                    ScrollViewer.HorizontalScrollMode="Auto"                  
+                    ScrollViewer.VerticalScrollMode="Auto"
+                    ItemsSource="{x:Bind ViewModel.LightDeviceListSources, Mode=OneWay}"
+                    SelectedItem="{x:Bind ViewModel.LightDeviceSelectedItem, Mode=TwoWay}"
+                    ItemContainerStyle="{StaticResource SettingDeviceListStyle}"
+                    ItemTemplate="{StaticResource SettingDeviceListTemplate}"
+                >
+            </ListView>
+                <Button Grid.Row="1" Margin="40, 0, 0, 0" Content="SAVE" Background="Transparent" BorderBrush="#ffcb00" BorderThickness="1" VerticalAlignment="Bottom"
+                    FontSize="18" Foreground="#ffcb00" Padding="17, 5"
+                    Command="{x:Bind ViewModel.SaveCommand}" Visibility="{x:Bind ViewModel.SaveButtonVisibility, Mode=OneWay}" Click="SaveButton_Click"/>
+            </Grid>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="top" Padding="0, 5, 50, 0">
+            <Button Content="All OFF" Height="24" Width="78" FontSize="13" Style="{StaticResource AllOffButtonStyle}" HorizontalAlignment="Center" Margin="0, 0, 10, 0"
+                    Command="{Binding LightMainViewModel.AllOffButtonClickCommand, Source={StaticResource Locator}}"/>
+        </StackPanel>
+
+        <StackPanel Name="SetPanelOrientation" Visibility="Collapsed"/>
+
+        <Grid x:Name="NotificationGrid" />
+        
+        <!--  Adaptive triggers  -->
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="WindowStates">
+                <VisualState x:Name="WideState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="640"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="SetPanelOrientation.Orientation" Value="Horizontal" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="NarrowState">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <!--<Setter Target="SetPanelOrientation.Orientation" Value="Vertical" />-->
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>
