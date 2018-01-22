@@ -1,0 +1,73 @@
+﻿<Page
+    x:Class="IOTOIApp.Views.Sensor.SensorDetailPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IOTOIApp.Views"
+    xmlns:ctrl="using:IOTOIApp.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Style="{StaticResource PageStyle}"
+    DataContext="{Binding SensorDetailViewModel, Source={StaticResource Locator}}"
+    xmlns:models="using:IOTOIApp.Models"
+    mc:Ignorable="d">
+
+    <Grid x:Name="ContentArea"  Margin="{StaticResource ContentAreaMargin}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="120"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="6*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            
+            <GridView Grid.Column="1"
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Center"
+                      ItemsSource="{x:Bind ViewModel.SensorDeviceListSources}"
+                      ScrollViewer.HorizontalScrollMode="Enabled" 
+                      ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                      ScrollViewer.VerticalScrollMode="Enabled"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto"
+                      SelectionMode="None"
+                      IsItemClickEnabled="False">
+                <GridView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsWrapGrid Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </GridView.ItemsPanel>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="models:Sensor">
+                        <Grid Width="192" Height="218" Margin="0 0 40 40">
+                            <Border BorderThickness="1" BorderBrush="{x:Bind ViewColor}" Background="Black" />
+
+                            <Grid VerticalAlignment="Top" HorizontalAlignment="Left" Width="20" Height="20" Background="#e7513e" Visibility="{x:Bind WarningIcon}">
+                                <TextBlock Text="&#xE783;" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Black" FontFamily="{StaticResource IconFontFamily}" />
+                            </Grid>
+
+                            <TextBlock Text="{x:Bind SensorViewTitle}" Foreground="{x:Bind TitleColor}" VerticalAlignment="Top" HorizontalAlignment="Center" Margin="0 30 0 0" />
+
+                            <TextBlock Text="{x:Bind OfflineText}" Foreground="#e7513e" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0 0 0 14" />
+
+                            <!--<TextBlock Text="{x:Bind SensorIcon}" Foreground="{x:Bind ViewColor}" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="90" FontFamily="{StaticResource IconFontFamily}" />-->
+                            <Image Source="/Assets/Icons/motion-icon.png" Width="73" Height="82" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind MotionNormal}" />
+                            <Image Source="/Assets/Icons/motion-occurrence.png" Width="73" Height="82" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind MotionWarning}" />
+                            <Image Source="/Assets/Icons/motion-none.png" Width="73" Height="82" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind MotionOffline}" />
+
+                            <Image Source="/Assets/Icons/door-icon.png" Width="60" Height="90" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind DoorNormal}" />
+                            <Image Source="/Assets/Icons/door-occurrence.png" Width="60" Height="90" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind DoorWarning}" />
+                            <Image Source="/Assets/Icons/door-none.png" Width="60" Height="90" Stretch="Fill" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="{x:Bind DoorOffline}" />
+                        </Grid>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </Grid>
+
+        <Button Grid.Row="0" Content="{StaticResource IconBack}" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="30 30 0 0" Background="Transparent" FontFamily="{StaticResource IconFontFamily}" FontSize="30" IsTabStop="False"
+                Command="{x:Bind ViewModel.BackButtonClickedCommand}"/>
+    </Grid>
+</Page>

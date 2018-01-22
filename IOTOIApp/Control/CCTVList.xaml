@@ -1,0 +1,37 @@
+﻿<UserControl
+    x:Class="IOTOIApp.Control.CCTVList"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="using:IOTOI.Model"
+    DataContext="{Binding CCTVListViewModel, Source={StaticResource Locator}}"
+    mc:Ignorable="d"
+    Width="194"
+    Height="420"
+    >
+    <Grid>
+        
+        <ListView x:Name="CCTVListView"
+                ItemsSource="{x:Bind ViewModel.CCTVListSources, Mode=TwoWay}"
+                SelectedItem="{x:Bind CCTVSelectedItem, Mode=TwoWay}"
+                ItemContainerStyle="{StaticResource CCTVListStyle}"
+                ItemClick="CCTVListView_ItemClick"
+                IsItemClickEnabled="True"
+                ScrollViewer.HorizontalScrollMode="Auto"                  
+                ScrollViewer.VerticalScrollMode="Auto"
+                Padding="0, 0, 20,0"
+                >
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:CCTV">
+                    <Grid Name="ChildGrid"  BorderThickness="0, 1.5, 0, 0">
+                        <Border Grid.Column="0" Background="Black" Width="194" Opacity="0.63" Height="68"/>
+                        <StackPanel  VerticalAlignment="Center" HorizontalAlignment="Center">
+                            <TextBlock Text="{x:Bind CCTVName}" FontSize="18"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</UserControl>

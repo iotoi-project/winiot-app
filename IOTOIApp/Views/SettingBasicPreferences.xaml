@@ -1,0 +1,123 @@
+﻿<Page
+    x:Class="IOTOIApp.Views.SettingBasicPreferences"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:IOTOIApp.Views"
+    xmlns:util="using:IOTOIApp.Utils"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <Style x:Name="ImageCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="VerticalContentAlignment" Value="Top" />
+            <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}" />
+            <Setter Property="FontSize" Value="{ThemeResource ControlContentThemeFontSize}" />
+            <Setter Property="MinWidth" Value="60" />
+            <Setter Property="UseSystemFocusVisuals" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="CheckBox">
+                        <Grid Background="{TemplateBinding Background}"
+                          BorderBrush="{TemplateBinding BorderBrush}"
+                          BorderThickness="{TemplateBinding BorderThickness}">
+                            <Rectangle x:Name="ButtonEllipse" Fill="Transparent" />
+                            <ContentPresenter x:Name="ContentPresenter"
+                          Content="{TemplateBinding Content}"
+                          ContentTransitions="{TemplateBinding ContentTransitions}"
+                          ContentTemplate="{TemplateBinding ContentTemplate}"
+                          Margin="{TemplateBinding Padding}"
+                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                          Grid.Column="1"
+                          AutomationProperties.AccessibilityView="Raw"
+                          TextWrapping="Wrap" />
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver"/>
+                                    <VisualState x:Name="Pressed"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="Transparent" Storyboard.TargetProperty="(Rectangle.Fill).(SolidColorBrush.Color)" Storyboard.TargetName="ButtonEllipse" />
+                                            <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(ContentPresenter.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="ContentPresenter" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <util:NegateBooleanConverter x:Key="inverter"/>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="40" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="1" Background="#a0000000">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="45" />
+                <ColumnDefinition Width="150" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <TextBlock Grid.Row="1" Grid.Column="1" x:Uid="Settings_Language" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" />
+            <TextBlock Grid.Row="2" Grid.Column="1" x:Uid="Settings_Keylayout" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Left" />
+
+            <StackPanel Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Left">
+                <TextBlock x:Uid="Settings_Cotana" FontSize="18" />
+                <TextBlock x:Uid="Settings_CotanaDesc" FontSize="14" Foreground="#ff666766" />
+            </StackPanel>
+
+            <ComboBox  Grid.Row="1" Grid.Column="2" x:Name="LanguageComboBox" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0 0 45 0" />
+
+            <ComboBox  Grid.Row="2" Grid.Column="2" x:Name="InputLanguageComboBox" Height="40" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0 0 45 0" />
+
+            <CheckBox x:Name="SwitchCotana" Grid.Row="3" Grid.Column="2" Width="100" Height="24"  Style="{StaticResource ImageCheckBoxStyle}" VerticalAlignment="Center" HorizontalAlignment="Right" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0 0 45 0">
+                <CheckBox.Content>
+                    <Grid>
+                        <Grid Visibility="{Binding Path=IsChecked, ElementName=SwitchCotana, Converter={StaticResource inverter}}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Source="/Assets/Icons/toggle-off.png" Width="44" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="OFF" Foreground="#ff666766" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+
+                        <Grid Visibility="{Binding Path=IsChecked, ElementName=SwitchCotana}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Image Grid.Column="0" Source="/Assets/Icons/toggle-on.png" Width="44" Height="20" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="ON" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                    </Grid>
+                </CheckBox.Content>
+            </CheckBox>
+        </Grid>
+    </Grid>
+</Page>
