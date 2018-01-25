@@ -32,31 +32,6 @@ namespace IOTOIApp.ViewModels.CCTV
 
         public CCTVListViewModel()
         {
-            //insert test cctv
-            using (var db = new Context())
-            {
-                if(db.CCTV.Count() == 0)
-                {
-                    db.Add(new IOTOI.Model.CCTV
-                    {
-                        IpAddress = "192.168.5.171:88",
-                        CCTVName = "Foscam1",
-                        AccountId = "inslab",
-                        AccountPass = "inslab1234",
-                        CCTVType = "Foscam"
-                    });
-                    db.Add(new IOTOI.Model.CCTV
-                    {
-                        IpAddress = "192.168.5.118",
-                        CCTVName = "Commax CCTV1",
-                        AccountId = "inslab2",
-                        AccountPass = "inslab1234",
-                        CCTVType = "Sunell"
-                    });
-                    db.SaveChanges();
-                }
-            }
-
             GetCCTVList();
         }
 
@@ -64,23 +39,7 @@ namespace IOTOIApp.ViewModels.CCTV
         {
             using (var db = new Context())
             {
-                //List<IOTOI.Model.CCTV> tmpList = db.CCTV.ToList();
-                //if (tmpList.Count != 0)
-                //{
-                //    CCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>();
-                //    foreach (IOTOI.Model.CCTV item in tmpList)
-                //    {
-                //        IOTOI.Model.CCTV ccTv = new IOTOI.Model.CCTV();
-
-                //        ccTv.AccountId = item.AccountId;
-                //        ccTv.AccountPass = item.AccountPass;
-                //        ccTv.CCTVId = item.CCTVId;
-                //        ccTv.CCTVName = item.CCTVName;
-                //        ccTv.CCTVType = item.CCTVType;
-
-                //        CCTVListSources.Add(ccTv);
-                //    }
-            CCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>(db.CCTV.ToList());
+                CCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>(db.CCTV.ToList());
             }
         }
     }
