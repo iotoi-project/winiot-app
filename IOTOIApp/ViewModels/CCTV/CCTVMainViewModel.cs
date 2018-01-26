@@ -32,13 +32,6 @@ namespace IOTOIApp.ViewModels.CCTV
             }
         }
 
-        private ObservableCollection<IOTOI.Model.CCTV> _cCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>();
-        public ObservableCollection<IOTOI.Model.CCTV> CCTVListSources
-        {
-            get { return _cCTVListSources; }
-            set { Set(ref _cCTVListSources, value); }
-        }
-
         private IOTOI.Model.CCTV _cCTVSelectedItem;
         public IOTOI.Model.CCTV CCTVSelectedItem
         {
@@ -80,13 +73,25 @@ namespace IOTOIApp.ViewModels.CCTV
             GoSettingsPageCommand = new RelayCommand(GoSettingsPage);
             StartImageStreamCommand = new RelayCommand(StartImageStream);
             StopImageStreamCommand = new RelayCommand(StopImageStream);
+
+            SelectDefaultCCTV();
+        }
+
+        private void SelectDefaultCCTV()
+        {
+            var CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
+            if (CCTVListVM.CCTVListSources.Count > 0)
+            {
+                CCTVSelectedItem = CCTVListVM.CCTVListSources[0];
+                StartImageStream();
+            }
         }
 
         private static ThreadPoolTimer PeriodicTimer;
         private static bool RunImageStreamTimer;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        private void StartImageStream()
+        public void StartImageStream()
         {
             if (PeriodicTimer != null) PeriodicTimer.Cancel();
 
@@ -158,6 +163,7 @@ namespace IOTOIApp.ViewModels.CCTV
         private void GoSettingsPage()
         {
             NavigationService.Navigate("IOTOIApp.ViewModels.CCTV.CCTVSettingViewModel");
+            if (PeriodicTimer != null) PeriodicTimer.Cancel();
         }
 
         private void BackButtonClicked()
@@ -167,6 +173,8 @@ namespace IOTOIApp.ViewModels.CCTV
                 var ShellVM = ServiceLocator.Current.GetInstance<ShellViewModel>();
                 ShellVM.NaviToSettingPage(false);
                 NavigationService.GoBack();
+
+                if (PeriodicTimer != null) PeriodicTimer.Cancel();
             }
         }
     }

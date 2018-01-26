@@ -17,7 +17,7 @@ namespace IOTOI.Model
             get { return _accountPass; }
             set
             {
-                _accountPass = AESCipher.AES_Encrypt(value);                
+                if(value != null && value.Length > 0) _accountPass = AESCipher.AES_Encrypt(value);                
             }
         }
 

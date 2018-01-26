@@ -35,13 +35,6 @@ namespace IOTOIApp.ViewModels.CCTV
             }
         }
 
-        private ObservableCollection<IOTOI.Model.CCTV> _cCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>();
-        public ObservableCollection<IOTOI.Model.CCTV> CCTVListSources
-        {
-            get { return _cCTVListSources; }
-            set { Set(ref _cCTVListSources, value); }
-        }
-
         private IOTOI.Model.CCTV _cCTVSelectedItem = new IOTOI.Model.CCTV();
         public IOTOI.Model.CCTV CCTVSelectedItem
         {
@@ -75,6 +68,8 @@ namespace IOTOIApp.ViewModels.CCTV
         public ICommand AddCCTVCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
 
+        CCTVListViewModel CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
+
         public CCTVSettingViewModel()
         {
             BackButtonClickedCommand = new RelayCommand(BackButtonClicked);
@@ -82,7 +77,17 @@ namespace IOTOIApp.ViewModels.CCTV
             SaveCommand = new RelayCommand(Save);
             AddCCTVCommand = new RelayCommand(AddCCTV);
             DeleteCommand = new RelayCommand(Delete);
+
+            SelectDefaultCCTV();
         }
+        private void SelectDefaultCCTV()
+        {
+            if (CCTVListVM.CCTVListSources.Count > 0)
+            {
+                CCTVSelectedItem = CCTVListVM.CCTVListSources[0];
+            }
+        }
+
         private void BackButtonClicked()
         {
             if (NavigationService.CanGoBack)
@@ -123,8 +128,9 @@ namespace IOTOIApp.ViewModels.CCTV
 
                 LocalNotice();
 
-                var CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
                 CCTVListVM.GetCCTVList();
+
+                SelectDefaultCCTV();
             }
             catch(Exception e)
             {
@@ -177,10 +183,9 @@ namespace IOTOIApp.ViewModels.CCTV
                     db.SaveChanges();
                 }
 
-                CCTVSelectedItem = new IOTOI.Model.CCTV();
-
-                var CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
                 CCTVListVM.GetCCTVList();
+
+                SelectDefaultCCTV();
             }
         }
 
