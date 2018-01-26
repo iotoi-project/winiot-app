@@ -2,13 +2,10 @@
 ## Introduction
 This application was developed as UWP (Universal Windows Platform) for Windows 10 IoT Core. The application supports Dragon Board, Raspberry Pi 3.
 The application was developed based on the headed device. Zigbee and Z-Wave protocols are supported. Basically, this application can be applied to hub devices that control IoT devices.
-
-## Development environments
-TBD
+You get start with IoIoI Project can be found on the [IoToI website](https://iotoi.io)
 
 ## Application Architecture Overview
-TBD
- 
+Here is the [Developer Guide](https://doc.iotoi.io) 
 
 ## Features
 * Light Contol
@@ -25,8 +22,6 @@ TBD
     * Change smart plug name
 * Thermostat
     * Supports only NEST thermostats
-    * Setting up target themporature
-    * Setting up Target flow
 * Open Weather API
     * Weaher information on Home screen using [Open Weather Map](https://openweathermap.org/)
 * Cortana
