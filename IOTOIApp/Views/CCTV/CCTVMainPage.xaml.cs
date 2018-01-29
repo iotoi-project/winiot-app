@@ -15,7 +15,7 @@ namespace IOTOIApp.Views.CCTV
         {
             InitializeComponent();
 
-            ViewModel.StartImageStream();
+            ViewModel.SelectDefaultCCTV();
         }
     }
 }

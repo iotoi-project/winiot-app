@@ -21,18 +21,8 @@ namespace IOTOIApp.ViewModels.CCTV
             set { Set(ref _cCTVListSources, value); }
         }
 
-        private IOTOI.Model.CCTV _cCTVSelectedItem;
-        public IOTOI.Model.CCTV CCTVSelectedItem
-        {
-            get { return _cCTVSelectedItem; }
-            set {
-                Set(ref _cCTVSelectedItem, value);
-            }
-        }
-
         public CCTVListViewModel()
         {
-            GetCCTVList();
         }
 
         public void GetCCTVList()

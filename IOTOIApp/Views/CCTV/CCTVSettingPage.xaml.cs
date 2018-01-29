@@ -24,6 +24,8 @@ namespace IOTOIApp.Views.CCTV
         {
             InitializeComponent();
 
+            ViewModel.SelectDefaultCCTV();
+
             ViewModel.SettingPage = this as IPage;
 
             NotiManager = new LocalNotificationManager(NotificationGrid);

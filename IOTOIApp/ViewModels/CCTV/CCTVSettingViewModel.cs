@@ -77,15 +77,18 @@ namespace IOTOIApp.ViewModels.CCTV
             SaveCommand = new RelayCommand(Save);
             AddCCTVCommand = new RelayCommand(AddCCTV);
             DeleteCommand = new RelayCommand(Delete);
-
-            SelectDefaultCCTV();
         }
-        private void SelectDefaultCCTV()
+
+        public void SelectDefaultCCTV()
         {
+            CCTVListVM.GetCCTVList();
+
             if (CCTVListVM.CCTVListSources.Count > 0)
             {
                 CCTVSelectedItem = CCTVListVM.CCTVListSources[0];
             }
+
+            if(CCTVSelectedItem == null) _cCTVSelectedItem = new IOTOI.Model.CCTV();
         }
 
         private void BackButtonClicked()
@@ -99,6 +102,8 @@ namespace IOTOIApp.ViewModels.CCTV
         private async void Save()
         {
             Debug.WriteLine("Save!!");
+            if (CCTVSelectedItem == null) return;
+
             try
             {
                 if (!InputDataValidation()) return;
@@ -108,16 +113,19 @@ namespace IOTOIApp.ViewModels.CCTV
                 CCTVSelectedItem.CCTVType = await CCTVTypeService.GetCCTVType(CCTVSelectedItem);
                 Debug.WriteLine("CCTVType  is !! " + CCTVSelectedItem.CCTVType);
 
+                int SelectedIndex = 0;
                 using (var db = new Context())
                 {
                     if (CCTVSelectedItem.CCTVId > 0)
                     {
                         db.Attach(CCTVSelectedItem);
                         db.Update(CCTVSelectedItem);
+                        SelectedIndex = CCTVListVM.CCTVListSources.IndexOf(CCTVSelectedItem);
                     }
                     else
                     {
                         db.Add(CCTVSelectedItem);
+                        SelectedIndex = Math.Max(0, CCTVListVM.CCTVListSources.Count - 1);
                     }
 
                     db.SaveChanges();
@@ -129,8 +137,7 @@ namespace IOTOIApp.ViewModels.CCTV
                 LocalNotice();
 
                 CCTVListVM.GetCCTVList();
-
-                SelectDefaultCCTV();
+                CCTVSelectedItem = CCTVListVM.CCTVListSources[SelectedIndex];
             }
             catch(Exception e)
             {
@@ -160,12 +167,26 @@ namespace IOTOIApp.ViewModels.CCTV
 
         private void AddCCTV()
         {
-            CCTVSelectedItem = new IOTOI.Model.CCTV();
+            foreach (IOTOI.Model.CCTV cctv in CCTVListVM.CCTVListSources)
+            {
+                if (cctv.CCTVId == 0)
+                {
+                    CCTVSelectedItem = cctv;
+                    return;
+                }
+            }
+
+            IOTOI.Model.CCTV NewCCTV = new IOTOI.Model.CCTV
+            {
+                CCTVName = "..."
+            };
+            CCTVListVM.CCTVListSources.Add(NewCCTV);
+            CCTVSelectedItem = NewCCTV;
         }
 
         private async void Delete()
         {
-            if (CCTVSelectedItem.CCTVId == 0) return;
+            if (CCTVSelectedItem == null || CCTVSelectedItem.CCTVId == 0) return;
 
             ContentDialog deleteCCTVDialog = new ContentDialog
             {
@@ -183,8 +204,11 @@ namespace IOTOIApp.ViewModels.CCTV
                     db.SaveChanges();
                 }
 
-                CCTVListVM.GetCCTVList();
-
+                CCTVSelectedItem.IpAddress = "";
+                CCTVSelectedItem.AccountId = "";
+                CCTVSelectedItem.AccountPass = " ";
+                CCTVSelectedItem.CCTVName = "";
+                CCTVSelectedItem = new IOTOI.Model.CCTV();
                 SelectDefaultCCTV();
             }
         }
