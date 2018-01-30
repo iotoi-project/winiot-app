@@ -80,10 +80,9 @@ namespace IOTOIApp.Views
             if (await ViewModel.IsBluetoothEnabledAsync())
             {
                 SwitchBluetooth.IsChecked = true;
-                ViewModel.TurnOnRadio();
             }
             else
-            {   
+            {
                 ViewModel.TurnOffBluetooth();
             }
         }
