@@ -15,7 +15,7 @@
 
     <Grid  Margin="0, 0, 65, 0">
         <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right" Padding="0">
-            <TextBlock Text="&#xE714;" FontFamily="Segoe MDL2 Assets" Margin="0,0, 18, 0" FontSize="25" Foreground="Gray" />
+            <TextBlock Text="&#xE714;" FontFamily="Segoe MDL2 Assets" Margin="0,0, 18, 0" FontSize="25" Foreground="{x:Bind ViewModel.CCTVSymbolColor, Mode=OneWay}" />
             <TextBlock Text="&#xE702;" FontFamily="Segoe MDL2 Assets" Margin="0,0, 18, 0" FontSize="25" Foreground="Gray"/>
             <Grid Margin="0,0, 20, 0">
                 <Grid.Resources>

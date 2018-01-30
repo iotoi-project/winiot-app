@@ -69,6 +69,7 @@ namespace IOTOIApp.ViewModels.CCTV
         public ICommand DeleteCommand { get; private set; }
 
         CCTVListViewModel CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
+        FooterViewModel FooterVM = ServiceLocator.Current.GetInstance<FooterViewModel>();
 
         public CCTVSettingViewModel()
         {
@@ -138,6 +139,8 @@ namespace IOTOIApp.ViewModels.CCTV
 
                 CCTVListVM.GetCCTVList();
                 CCTVSelectedItem = CCTVListVM.CCTVListSources[SelectedIndex];
+
+                FooterVM.CheckCCTVStreaming();
             }
             catch(Exception e)
             {
@@ -210,6 +213,8 @@ namespace IOTOIApp.ViewModels.CCTV
                 CCTVSelectedItem.CCTVName = "";
                 CCTVSelectedItem = new IOTOI.Model.CCTV();
                 SelectDefaultCCTV();
+
+                FooterVM.CheckCCTVStreaming();
             }
         }
 

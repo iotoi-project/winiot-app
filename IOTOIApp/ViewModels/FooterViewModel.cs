@@ -14,6 +14,8 @@ using GalaSoft.MvvmLight.Command;
 using IOTOIApp.Services;
 using Microsoft.Practices.ServiceLocation;
 using Windows.Foundation.Collections;
+using IOTOI.Model.Db;
+using System.Linq;
 
 namespace IOTOIApp.ViewModels
 {
@@ -41,6 +43,13 @@ namespace IOTOIApp.ViewModels
         {
             get { return _zgbeeSymbolColor; }
             set { Set(ref _zgbeeSymbolColor, value); }
+        }
+
+        private SolidColorBrush _cCTVSymbolColor = DeactivatedSymbolColor;
+        public SolidColorBrush CCTVSymbolColor
+        {
+            get { return _cCTVSymbolColor; }
+            set { Set(ref _cCTVSymbolColor, value); }
         }
 
         private static SolidColorBrush ActivatedSymbolColor = new SolidColorBrush(Windows.UI.Colors.Cyan);
@@ -76,6 +85,7 @@ namespace IOTOIApp.ViewModels
 
             NetworkInformation.NetworkStatusChanged += NetworkInformationOnNetworkStatusChanged;
             CheckInternetAccess();
+            CheckCCTVStreaming();
             //CheckZigbeeAccess();
         }
 
@@ -155,6 +165,23 @@ namespace IOTOIApp.ViewModels
         {
             CheckInternetAccess();
             Debug.WriteLine("network status changed");
+        }
+
+        public void CheckCCTVStreaming()
+        {
+            Debug.WriteLine("CheckCCTVStreaming Start");
+            CCTVSymbolColor = DeactivatedSymbolColor;
+            using (var db = new Context())
+            {
+                foreach(IOTOI.Model.CCTV cctv in db.CCTV.ToList()){
+                    if(!String.IsNullOrEmpty(cctv.CCTVType)) {
+                        CCTVSymbolColor = ActivatedSymbolColor;
+                        Debug.WriteLine("CCTVStreaming Activated");
+                        break;
+                    }
+                }
+            }
+            Debug.WriteLine("CheckCCTVStreaming End");
         }
 
         private void BackButtonClicked()
