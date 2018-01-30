@@ -43,7 +43,7 @@
             </Grid.ColumnDefinitions>
 
             <Viewbox Grid.Column="1" Grid.Row="0"  MaxWidth="194" MaxHeight="420" MinHeight="270" Stretch="Uniform">
-                <control:CCTVList PageName="Setting" CCTVSelectedItem="{x:Bind ViewModel.CCTVSelectedItem, Mode=OneWay}"/>
+                <control:CCTVList PageName="Setting" CCTVSelectedItem="{x:Bind ViewModel.CCTVSelectedItem, Mode=TwoWay}"/>
             </Viewbox>
 
             <Viewbox Grid.Column="3" Grid.Row="0" MaxWidth="600" MaxHeight="420" MinHeight="270" Stretch="Uniform" HorizontalAlignment="Right">

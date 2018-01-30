@@ -2,11 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace IOTOIApp.Services
 {
@@ -38,8 +37,10 @@ namespace IOTOIApp.Services
                         if (httpResponse != null && httpResponse.StatusCode == HttpStatusCode.OK)
                         {
                             string ResponseText = await httpResponse.Content.ReadAsStringAsync();
+                            XmlDocument xml = new XmlDocument();
+                            xml.LoadXml(ResponseText);
 
-                            if (ResponseText.IndexOf("Error,return=-4") == -1)
+                            if (xml.GetElementsByTagName("result")[0].InnerText == "0")
                             {
                                 return IPCameraUri.Key;
                             }

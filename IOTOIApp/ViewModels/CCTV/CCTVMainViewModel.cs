@@ -32,13 +32,6 @@ namespace IOTOIApp.ViewModels.CCTV
             }
         }
 
-        private ObservableCollection<IOTOI.Model.CCTV> _cCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>();
-        public ObservableCollection<IOTOI.Model.CCTV> CCTVListSources
-        {
-            get { return _cCTVListSources; }
-            set { Set(ref _cCTVListSources, value); }
-        }
-
         private IOTOI.Model.CCTV _cCTVSelectedItem;
         public IOTOI.Model.CCTV CCTVSelectedItem
         {
@@ -74,21 +67,47 @@ namespace IOTOIApp.ViewModels.CCTV
         public ICommand StartImageStreamCommand { get; private set; }
         public ICommand StopImageStreamCommand { get; private set; }
 
+        CCTVListViewModel CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
+        private int SelectedIndex = 0;
+
         public CCTVMainViewModel()
         {
             BackButtonClickedCommand = new RelayCommand(BackButtonClicked);
             GoSettingsPageCommand = new RelayCommand(GoSettingsPage);
             StartImageStreamCommand = new RelayCommand(StartImageStream);
             StopImageStreamCommand = new RelayCommand(StopImageStream);
+
+            SelectDefaultCCTV();
+        }
+
+        public void SelectDefaultCCTV()
+        {
+            InProgress = false;
+            StreamImage = null;
+
+            CCTVListVM.GetCCTVList();
+
+            if(CCTVListVM.CCTVListSources.Count > 0)
+            {
+                if ((CCTVListVM.CCTVListSources.Count - 1) < SelectedIndex)
+                {
+                    SelectedIndex = (CCTVListVM.CCTVListSources.Count - 1);
+                }
+                CCTVSelectedItem = CCTVListVM.CCTVListSources[SelectedIndex];
+                StartImageStream();
+            }
         }
 
         private static ThreadPoolTimer PeriodicTimer;
         private static bool RunImageStreamTimer;
         private CancellationTokenSource _cts = new CancellationTokenSource();
-
-        private void StartImageStream()
+        
+        public void StartImageStream()
         {
+            if (CCTVSelectedItem == null) return;
             if (PeriodicTimer != null) PeriodicTimer.Cancel();
+
+            SelectedIndex = CCTVListVM.CCTVListSources.IndexOf(CCTVSelectedItem);
 
             StartBtnVisibility = Visibility.Collapsed;
             InProgress = true;
@@ -158,6 +177,7 @@ namespace IOTOIApp.ViewModels.CCTV
         private void GoSettingsPage()
         {
             NavigationService.Navigate("IOTOIApp.ViewModels.CCTV.CCTVSettingViewModel");
+            if (PeriodicTimer != null) PeriodicTimer.Cancel();
         }
 
         private void BackButtonClicked()
@@ -167,6 +187,8 @@ namespace IOTOIApp.ViewModels.CCTV
                 var ShellVM = ServiceLocator.Current.GetInstance<ShellViewModel>();
                 ShellVM.NaviToSettingPage(false);
                 NavigationService.GoBack();
+
+                if (PeriodicTimer != null) PeriodicTimer.Cancel();
             }
         }
     }

@@ -35,13 +35,6 @@ namespace IOTOIApp.ViewModels.CCTV
             }
         }
 
-        private ObservableCollection<IOTOI.Model.CCTV> _cCTVListSources = new ObservableCollection<IOTOI.Model.CCTV>();
-        public ObservableCollection<IOTOI.Model.CCTV> CCTVListSources
-        {
-            get { return _cCTVListSources; }
-            set { Set(ref _cCTVListSources, value); }
-        }
-
         private IOTOI.Model.CCTV _cCTVSelectedItem = new IOTOI.Model.CCTV();
         public IOTOI.Model.CCTV CCTVSelectedItem
         {
@@ -75,6 +68,9 @@ namespace IOTOIApp.ViewModels.CCTV
         public ICommand AddCCTVCommand { get; private set; }
         public ICommand DeleteCommand { get; private set; }
 
+        CCTVListViewModel CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
+        FooterViewModel FooterVM = ServiceLocator.Current.GetInstance<FooterViewModel>();
+
         public CCTVSettingViewModel()
         {
             BackButtonClickedCommand = new RelayCommand(BackButtonClicked);
@@ -83,6 +79,19 @@ namespace IOTOIApp.ViewModels.CCTV
             AddCCTVCommand = new RelayCommand(AddCCTV);
             DeleteCommand = new RelayCommand(Delete);
         }
+
+        public void SelectDefaultCCTV()
+        {
+            CCTVListVM.GetCCTVList();
+
+            if (CCTVListVM.CCTVListSources.Count > 0)
+            {
+                CCTVSelectedItem = CCTVListVM.CCTVListSources[0];
+            }
+
+            if(CCTVSelectedItem == null) _cCTVSelectedItem = new IOTOI.Model.CCTV();
+        }
+
         private void BackButtonClicked()
         {
             if (NavigationService.CanGoBack)
@@ -94,6 +103,8 @@ namespace IOTOIApp.ViewModels.CCTV
         private async void Save()
         {
             Debug.WriteLine("Save!!");
+            if (CCTVSelectedItem == null) return;
+
             try
             {
                 if (!InputDataValidation()) return;
@@ -103,16 +114,19 @@ namespace IOTOIApp.ViewModels.CCTV
                 CCTVSelectedItem.CCTVType = await CCTVTypeService.GetCCTVType(CCTVSelectedItem);
                 Debug.WriteLine("CCTVType  is !! " + CCTVSelectedItem.CCTVType);
 
+                int SelectedIndex = 0;
                 using (var db = new Context())
                 {
                     if (CCTVSelectedItem.CCTVId > 0)
                     {
                         db.Attach(CCTVSelectedItem);
                         db.Update(CCTVSelectedItem);
+                        SelectedIndex = CCTVListVM.CCTVListSources.IndexOf(CCTVSelectedItem);
                     }
                     else
                     {
                         db.Add(CCTVSelectedItem);
+                        SelectedIndex = Math.Max(0, CCTVListVM.CCTVListSources.Count - 1);
                     }
 
                     db.SaveChanges();
@@ -123,8 +137,10 @@ namespace IOTOIApp.ViewModels.CCTV
 
                 LocalNotice();
 
-                var CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
                 CCTVListVM.GetCCTVList();
+                CCTVSelectedItem = CCTVListVM.CCTVListSources[SelectedIndex];
+
+                FooterVM.CheckCCTVStreaming();
             }
             catch(Exception e)
             {
@@ -154,12 +170,26 @@ namespace IOTOIApp.ViewModels.CCTV
 
         private void AddCCTV()
         {
-            CCTVSelectedItem = new IOTOI.Model.CCTV();
+            foreach (IOTOI.Model.CCTV cctv in CCTVListVM.CCTVListSources)
+            {
+                if (cctv.CCTVId == 0)
+                {
+                    CCTVSelectedItem = cctv;
+                    return;
+                }
+            }
+
+            IOTOI.Model.CCTV NewCCTV = new IOTOI.Model.CCTV
+            {
+                CCTVName = "..."
+            };
+            CCTVListVM.CCTVListSources.Add(NewCCTV);
+            CCTVSelectedItem = NewCCTV;
         }
 
         private async void Delete()
         {
-            if (CCTVSelectedItem.CCTVId == 0) return;
+            if (CCTVSelectedItem == null || CCTVSelectedItem.CCTVId == 0) return;
 
             ContentDialog deleteCCTVDialog = new ContentDialog
             {
@@ -177,10 +207,14 @@ namespace IOTOIApp.ViewModels.CCTV
                     db.SaveChanges();
                 }
 
+                CCTVSelectedItem.IpAddress = "";
+                CCTVSelectedItem.AccountId = "";
+                CCTVSelectedItem.AccountPass = " ";
+                CCTVSelectedItem.CCTVName = "";
                 CCTVSelectedItem = new IOTOI.Model.CCTV();
+                SelectDefaultCCTV();
 
-                var CCTVListVM = ServiceLocator.Current.GetInstance<CCTVListViewModel>();
-                CCTVListVM.GetCCTVList();
+                FooterVM.CheckCCTVStreaming();
             }
         }
 

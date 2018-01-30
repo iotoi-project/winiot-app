@@ -14,6 +14,8 @@ namespace IOTOIApp.Views.CCTV
         public CCTVMainPage()
         {
             InitializeComponent();
+
+            ViewModel.SelectDefaultCCTV();
         }
     }
 }

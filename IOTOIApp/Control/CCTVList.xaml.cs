@@ -4,6 +4,7 @@ using IOTOIApp.ViewModels.CCTV;
 using Microsoft.Practices.ServiceLocation;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -29,7 +30,7 @@ namespace IOTOIApp.Control
         public CCTV CCTVSelectedItem
         {
             get { return GetValue(CCTVSelectedItemProperty) as CCTV; }
-            set { SetValue(CCTVSelectedItemProperty, value); }
+            set { SetValue(CCTVSelectedItemProperty, value); HighLightSelectedItem(value); }
         }
         public static DependencyProperty CCTVSelectedItemProperty = DependencyProperty.Register("CCTVSelectedItem", typeof(CCTV), typeof(CCTVList), new PropertyMetadata(null));
 
@@ -39,8 +40,6 @@ namespace IOTOIApp.Control
             set { SetValue(PageNameProperty, value); }
         }
         public static DependencyProperty PageNameProperty = DependencyProperty.Register("PageName", typeof(string), typeof(CCTVList), new PropertyMetadata(null));
-
-
 
         public CCTVList()
         {
@@ -59,30 +58,40 @@ namespace IOTOIApp.Control
             }
         }
 
-        private void CCTVListView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void HighLightSelectedItem(object Item)
         {
-            Debug.WriteLine("CCTVListView_ItemClick!!");
+            if (Item == null) return;
+
+            await Task.Delay(100);
 
             foreach (Grid gd in UIElementUtil.FindChildArray<Grid>(CCTVListView, "ChildGrid"))
             {
                 gd.BorderBrush = new SolidColorBrush(Windows.UI.Colors.Transparent);
             }
 
-            var item = e.ClickedItem;
-            var CCTVItem = CCTVListView.ContainerFromItem(item) as ListViewItem;
+            var CCTVItem = CCTVListView.ContainerFromItem(Item) as ListViewItem;
+            var ChildGrid = UIElementUtil.FindChild<Grid>(CCTVItem, "ChildGrid");
+            if (ChildGrid != null)
+            {
+                ChildGrid.BorderBrush = ConverHexToColor.GetSolidColorBrush("#ffcb00");
+            }
+        }
 
-            Grid ChildGrid = UIElementUtil.FindChild<Grid>(CCTVItem, "ChildGrid");
-            ChildGrid.BorderBrush = ConverHexToColor.GetSolidColorBrush("#ffcb00");
+        private void CCTVListView_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            Debug.WriteLine("CCTVListView_ItemClick!!");
+
+            var Item = e.ClickedItem;
 
             switch (PageName)
             {
                 case "Main":
                     var MainVM = ServiceLocator.Current.GetInstance<CCTVMainViewModel>();
-                    MainVM.CCTVSelectedItem = item as IOTOI.Model.CCTV;
+                    MainVM.CCTVSelectedItem = Item as IOTOI.Model.CCTV;
                     return;
                 case "Setting":
                     var SettingVM = ServiceLocator.Current.GetInstance<CCTVSettingViewModel>();
-                    SettingVM.CCTVSelectedItem = item as IOTOI.Model.CCTV;
+                    SettingVM.CCTVSelectedItem = Item as IOTOI.Model.CCTV;
                     return;
             }
            
