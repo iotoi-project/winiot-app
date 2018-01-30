@@ -8,8 +8,8 @@
       <Example> Turn on smart living room lamp </Example>
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Turn {onoff} [my] {target} </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Turn {onoff} [my] {builtin:AppName} {target} </ListenFor>
-      <Feedback> Turning the power {onoff} {target}</Feedback>      
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <Feedback> Turning the power {onoff} {target}</Feedback>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="reportStatus">
@@ -17,7 +17,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Check on [my] {target} </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Check on [my] {builtin:AppName} {target} </ListenFor>
       <Feedback> CHeck the Status {target}</Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="reportAppointment">
@@ -25,7 +25,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Tell me [my] Schedule {Days} </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Tell me [my] {builtin:AppName} Schedule {Days} </ListenFor>
       <Feedback> CHeck the Status {Days}</Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="reportTemperature">
@@ -33,7 +33,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> How's the [my] temperature </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> How's the [my] {builtin:AppName} temperature </ListenFor>
       <Feedback> Get the temperature</Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="SetTemperature">
@@ -41,7 +41,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Set the [my] temperature to {TemperatureNumber} degrees </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Set the [my] {builtin:AppName} temperature to {TemperatureNumber} degrees </ListenFor>
       <Feedback> Set the temperature to {TemperatureNumber}</Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="StartFan">
@@ -49,7 +49,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Start the [my] fan for {fanstartminutes} minutes </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Start the [my] {builtin:AppName} fan for {fanstartminutes} minutes </ListenFor>
       <Feedback> Start fan for {fanstartminutes} minutes</Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="StopFan">
@@ -57,7 +57,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Stop the [my] fan </ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Stop the [my] {builtin:AppName} fan </ListenFor>
       <Feedback> Stop fan </Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
 
     <Command Name="AskNest">
@@ -65,7 +65,7 @@
       <ListenFor RequireAppName="BeforeOrAfterPhrase"> Ask [my] about {NestDevice}</ListenFor>
       <ListenFor RequireAppName="ExplicitlySpecified"> Ask [my] {builtin:AppName} about {NestDevice}</ListenFor>
       <Feedback> Ask {NestDevice}</Feedback>
-      <IOTOIAppVoiceCommandService Target="IOTOIAppVoiceCommandService"/>
+      <VoiceCommandService Target="IOTOIAppVoiceCommandService"/>
     </Command>
     
     <PhraseList Label="onoff">
@@ -102,4 +102,5 @@
     <PhraseTopic Label="TemperatureNumber" Scenario="Dictation"/>
 
   </CommandSet>
+
 </VoiceCommands>
