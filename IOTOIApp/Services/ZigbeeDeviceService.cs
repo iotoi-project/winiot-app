@@ -13,6 +13,7 @@ using Windows.System.Threading;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Media;
 using IOTOI.Model.ZigBee;
+using IOTOIApp.Utils;
 
 namespace IOTOIApp.Services
 {
@@ -21,7 +22,7 @@ namespace IOTOIApp.Services
         public static ObservableCollection<ZigBeeEndDevice> ZigbeeDeviceListSources = new ObservableCollection<ZigBeeEndDevice>();
         public static ObservableCollection<ZigBeeEndDevice> TmpZigbeeDeviceListSources = new ObservableCollection<ZigBeeEndDevice>();
 
-        private static ThreadPoolTimer PeriodicTimer;
+        private static ThreadPoolTimer PeriodicTimer;        
 
         public static void CloseEndDevices()
         {
@@ -106,41 +107,30 @@ namespace IOTOIApp.Services
 
             await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
-                try
+            try
+            {
+                var message = new ValueSet();
+                message.Add("Type", "ZigBee");
+                message.Add("Command", "SetEndDevices");
+                message.Add("Param", JsonConvert.SerializeObject(list));
+
+                ValueSet ReturnData = IOTOI.Common.CommonService.GetReturnData(message);
+
+                Debug.WriteLine(ReturnData["Status"].ToString());
+
+                string phList = null;
+                if (ReturnData.ContainsKey("Status"))
                 {
-                    var message = new ValueSet();
-                    message.Add("Type", "ZigBee");
-                    message.Add("Command", "SetEndDevices");
-                    message.Add("Param", JsonConvert.SerializeObject(list));
-
-                    ValueSet ReturnData = IOTOI.Common.CommonService.GetReturnData(message);
-
-                    Debug.WriteLine(ReturnData["Status"].ToString());
-
-                    string phList = null;
-                    if (ReturnData.ContainsKey("Status"))
+                    if (ReturnData["Status"] != null)
                     {
-                        if (ReturnData["Status"] != null)
-                        {
-                            Debug.WriteLine(ReturnData["Status"].ToString());
-                            phList = ReturnData["Result"].ToString();
-                        }
+                        Debug.WriteLine(ReturnData["Status"].ToString());
+                        phList = ReturnData["Result"].ToString();
                     }
+                }
 
-                    #region Call Cortana Update
-                    message = new ValueSet();
-                    message.Add("Command", "CORTANA");
-                    message.Add("PHRASELIST", phList);
-
-                    ReturnData = IOTOI.Common.CommonService.GetReturnData(message);
-
-                    if (ReturnData.ContainsKey("Status"))
-                    {
-                        if (ReturnData["Status"] != null)
-                        {
-                            Debug.WriteLine(ReturnData["Status"].ToString());
-                        }
-                    }
+                #region Call Cortana Update
+                VoiceCommandHandler voiceCommandHandler = new VoiceCommandHandler();
+                await Task.Run(async () => await voiceCommandHandler.SetPhraseList(phList));
                     #endregion
                 }
                 catch (Exception e)
