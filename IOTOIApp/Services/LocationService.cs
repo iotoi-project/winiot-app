@@ -21,8 +21,9 @@ namespace IOTOIApp.Services
                 //{
                 //    //throw new Exception();
                 //}
-                var geolocator = new Geolocator { DesiredAccuracyInMeters = 0 };
-                var position = await geolocator.GetGeopositionAsync();
+                var geolocator = new Geolocator { DesiredAccuracy = PositionAccuracy.Default };
+                var position = await geolocator.GetGeopositionAsync(TimeSpan.FromSeconds(10), TimeSpan.FromSeconds(1));
+
                 return position;
 
             }catch(Exception e)
