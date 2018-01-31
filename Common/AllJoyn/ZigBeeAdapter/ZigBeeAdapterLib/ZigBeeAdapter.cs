@@ -1200,9 +1200,7 @@ namespace ZigbeeAdapterLib
             {
                 //TODO: SendTTS작업시 사용할 내용임.
                 string endPointName = null;
-                ZclValue zclValueTTS = null;
-
-
+                bool isOpenBefore = false;
                 using (var db = new Context())
                 {
                     zigBeeEndDeviceModel = db.ZigBeeEndDevice.Find(zigBeeDevice.MacAddress);
@@ -1212,11 +1210,12 @@ namespace ZigbeeAdapterLib
                         zigBeeEndPointModel = db.ZigBeeEndPoint.Single(b => b.MacAddress == zigBeeEndDeviceModel.MacAddress && b.EpNum == zigBeeEndPoint.Id);
                         zigBeeInClusterModel = db.ZigBeeInCluster.Single(b => b.ParentId == zigBeeEndPointModel.Id && b.ClusterId == cluster.Id);
                         zigBeeInClusterAttributeModel = db.ZigBeeInClusterAttribute.Single(b => b.ParentId == zigBeeInClusterModel.Id && b.Name == attribute.Value.Name);
+                        
+                        isOpenBefore = BitConverter.ToBoolean(zigBeeInClusterAttributeModel.AttrValue, 0);
 
                         ZclValue zclValue = (ZclValue)attribute.Value;
                         zigBeeInClusterAttributeModel.AttrValue = zclValue.ToByteBuffer();
-
-                        zclValueTTS = zclValue;
+                        
                         endPointName = zigBeeEndPointModel.CustomName;  //endPointName 추가
                     }
                     else
@@ -1228,26 +1227,25 @@ namespace ZigbeeAdapterLib
                 if (result)
                 {
                     ZigBeeSaveChanges("update", zigBeeInClusterAttributeModel, out result);
-                    //TODO : ONOFF Attribute 관련 name / 속성 확인할것. -- 17.11.15 ELZAIR
+                    
                     if (endPointName == null)
                     {
                         loggingServices.WriteLine<Adapter>("EndPoint Name is Null");
                     }
-
+                    
                     if (attribute.Value.Name == "OnOff" && endPointName != null)
                     {
                         ZclValue zclValue = (ZclValue)attribute.Value;
-                        //TODO: MainApp으로 던질것.
-                        //
-                        //zclValue.ToByteBuffer();
                         bool isOpen = (bool)zclValue.Data;
+                        
+                        if(isOpen != isOpenBefore)
+                        {
+                            string rtnMessage = "The " + endPointName + " is ";
+                            rtnMessage += isOpen ? "Open" : "Close";
 
-                        string rtnMessage = "The " + endPointName + " is ";
-                        rtnMessage += isOpen ? "Open" : "Close";
-
-                        loggingServices.WriteLine<Adapter>("On/Off Event");
-                        //Task.Run(() => SendTTS(rtnMessage));
-                        SpeechHelper.Speak(rtnMessage);
+                            loggingServices.WriteLine<Adapter>("On/Off Event");
+                            SpeechHelper.Speak(rtnMessage);
+                        }
                     }
                 };
 

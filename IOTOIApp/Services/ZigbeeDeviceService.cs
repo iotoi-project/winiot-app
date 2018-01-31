@@ -41,8 +41,8 @@ namespace IOTOIApp.Services
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     try
-                    {
-                        Debug.WriteLine("GetEndDevices RunTimmer : " + RunTimmer);
+                    {   
+                        Debug.WriteLine(String.Format("{0} GetEndDevices RunTimmer : {1}", System.DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), RunTimmer));
                         if (RunTimmer)
                         {
                             RunTimmer = false;
