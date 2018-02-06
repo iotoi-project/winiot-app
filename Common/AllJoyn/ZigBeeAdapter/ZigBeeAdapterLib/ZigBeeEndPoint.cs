@@ -195,12 +195,13 @@ namespace ZigbeeAdapterLib
                 if (attribute.Read(out value))
                 {
                     this.Vendor = (String)value;
-                    //loggingServices.WriteLine<ZigBeeEndPoint>(" Vendor = ["+ this.Vendor + "]");
+                    //loggingServices.WriteLine<ZigBeeEndPoint>(" Vendor = [" + this.Vendor + "]");
                 }
-                //else
-                //{
-                //    loggingServices.WriteLine<ZigBeeEndPoint>(" No Vendor");
-                //}
+                else
+                {
+                    //loggingServices.WriteLine<ZigBeeEndPoint>(" No Vendor");
+                    this.Vendor = null;
+                }
             }
             if (m_basicCluster.InternalAttributeList.TryGetValue(BasicCluster.ATTRIBUTE_MODEL_IDENTIFIER, out attribute))
             {
@@ -210,10 +211,11 @@ namespace ZigbeeAdapterLib
                     this.Model = (String)value;
                     //loggingServices.WriteLine<ZigBeeEndPoint>(" Model = [" + this.Model + "]");
                 }
-                //else
-                //{
-                //    loggingServices.WriteLine<ZigBeeEndPoint>(" No Model");
-                //}
+                else
+                {
+                    //loggingServices.WriteLine<ZigBeeEndPoint>(" No Model");
+                    this.Model = null;
+                }
             }
             if (m_basicCluster.InternalAttributeList.TryGetValue(BasicCluster.ATTRIBUTE_HW_VERSION, out attribute))
             {

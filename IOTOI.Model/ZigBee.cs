@@ -69,12 +69,15 @@ namespace IOTOI.Model.ZigBee
 
         private ulong _macAddress;
 
+        private string _vendor;
+
+        private string _model;
+
         private string _name;
 
         private string _customName;
 
         private int _protocolTypeId;
-
 
         private bool _isActivated;
 
@@ -109,6 +112,18 @@ namespace IOTOI.Model.ZigBee
         {
             get { return _macAddress; }
             set { SetWithNotify(value, ref _macAddress); }
+        }
+
+        public string Vendor
+        {
+            get { return _vendor; }
+            set { SetWithNotify(value, ref _vendor); }
+        }
+
+        public string Model
+        {
+            get { return _model; }
+            set { SetWithNotify(value, ref _model); }
         }
 
         public string Name

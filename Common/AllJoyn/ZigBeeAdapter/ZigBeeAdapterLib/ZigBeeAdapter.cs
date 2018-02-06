@@ -737,10 +737,12 @@ namespace ZigbeeAdapterLib
                 endPointModel.EpNum = endPoint.Id;
                 endPointModel.DeviceId = endPoint.DeviceId;
                 endPointModel.CommanProfileId = endPoint.CommandProfileId;
+                endPointModel.Vendor = endPoint.Vendor;
+                endPointModel.Model = endPoint.Model;
                 endPointModel.Name = endPoint.Name;
                 endPointModel.ProtocolTypeId = GetProtocol();
                 endPointModel.IsActivated = true;
-
+                
                 endPointModel.ZigBeeInClusters = GetInClusterListModel(endPoint.inClusters.Values, endPoint.Properties);
                 endPointModel.ZigBeeOutClusters = GetOutClusterListModel(endPoint.outClusters.Values, endPoint.Properties);
 
