@@ -70,50 +70,33 @@
         </Style>
     </Page.Resources>
 
-    <Grid Margin="-60, 0, 0, 0">
-        <Grid Margin="{StaticResource MediumLeftRightMargin}">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="8*"/>
-                <RowDefinition Height="2*"/>
-            </Grid.RowDefinitions>
+    <Grid x:Name="ContentArea" Margin="{StaticResource ContentAreaMargin}">
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="240"/>
-                <ColumnDefinition Width="2"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="65"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="90"/>
+        </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.ColumnSpan="3" Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Left">
-                <Button Content="{StaticResource IconBack}" Background="Transparent" BorderThickness="0" BorderBrush="Transparent"  FontFamily="{StaticResource IconFontFamily}" FontSize="15"
-                    Command="{x:Bind ViewModel.BackButtonClickedCommand}" Margin="0,0,20,0" VerticalAlignment="Center"/>
-                
-                <TextBlock
+        <StackPanel Grid.Row="0" VerticalAlignment="Bottom" Padding="30, 0, 0, 0" Orientation="Horizontal">
+            <Button Content="{StaticResource IconBack}" Background="Transparent" FontFamily="{StaticResource IconFontFamily}" FontSize="30"
+                    Command="{x:Bind ViewModel.BackButtonClickedCommand}"/>
+            <TextBlock
                 x:Uid="Settings_Title"
                 x:Name="TitlePage"
-                Style="{StaticResource PageTitleStyle}" />
-            </StackPanel>
-            
-            <!--<Rectangle Grid.Column="1" Grid.Row="1" Fill="Gray" Width="auto" Height="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>-->
+                Style="{StaticResource PageTitleStyle}"/>
+        </StackPanel>
 
-            <!--<ListView x:Name="SettingsChoice" Grid.Column="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" SelectionMode="Single" IsItemClickEnabled="True" ItemClick="SettingsChoice_ItemClick" Visibility="Collapsed" >
-                <ListViewItem HorizontalAlignment="Stretch" Height="48" IsSelected="True">
-                    <TextBlock x:Name="PreferencesListViewItem" x:Uid="Settings_Basic"/>
-                </ListViewItem>
-                <ListViewItem HorizontalAlignment="Stretch" Height="48">
-                    <TextBlock x:Name="NetworkListViewItem" x:Uid="Settings_Network"/>
-                </ListViewItem>
-                <ListViewItem HorizontalAlignment="Stretch" Height="48">
-                    <TextBlock x:Name="ZigbeeListViewItem" x:Uid="Settings_Zigbee"/>
-                </ListViewItem>
-                <ListViewItem HorizontalAlignment="Stretch" Height="48">
-                    <TextBlock x:Name="BluetoothListViewItem" x:Uid="Settings_Bluetooth"/>
-                </ListViewItem>
-                <ListViewItem HorizontalAlignment="Stretch" Height="48">
-                    <TextBlock x:Name="CortanaListViewItem" x:Uid="Settings_Cortana"/>
-                </ListViewItem>
-            </ListView>-->
+        <Grid Grid.Row="1" VerticalAlignment="Center">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*" MinWidth="5" MaxWidth="20" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="0.5*" />
+            </Grid.ColumnDefinitions>
 
-            <Viewbox Grid.Column="0" Grid.Row="0" MaxWidth="174" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="0 70 10 0">
+            <Viewbox Grid.Column="1" MaxWidth="174" VerticalAlignment="Top" HorizontalAlignment="Right">
                 <StackPanel>
                     <RadioButton x:Name="SettingPreferences" Width="174" Height="78" Background="#a0000000" Style="{StaticResource EmptyRadioButtonStyle}" Margin="0 0 0 16" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Checked="Settings_Checked">
                         <RadioButton.Content>
@@ -166,49 +149,31 @@
                     </RadioButton>
                 </StackPanel>
             </Viewbox>
-            
 
-            <Grid x:Name="SettingContents" Grid.Column="2" Grid.Row="0" Margin="0 70 30 0">
-                <Grid x:Name="BasicPreferencesGrid">
-                    <views:SettingBasicPreferences x:Name="SettingBasicPreferencesControl" Margin="0 0 0 10"/>
+
+            <Viewbox Grid.Column="3" MaxWidth="746" MaxHeight="460" MinHeight="270" Stretch="Uniform" HorizontalAlignment="Right">
+                <Grid x:Name="SettingContents" Width="746" Height="460" >
+                    <Grid x:Name="BasicPreferencesGrid">
+                        <views:SettingBasicPreferences x:Name="SettingBasicPreferencesControl" Margin="0 0 0 10"/>
+                    </Grid>
+                    <Grid x:Name="NetworkGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                        <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 0 0 10">
+                            <views:SettingNetwork x:Name="SettingNetworkControl"/>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="BluetoothGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                        <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 0 0 10">
+                            <views:SettingBluetooth x:Name="SettingBluetoothControl"/>
+                        </ScrollViewer>
+                    </Grid>
+                    <Grid x:Name="ZigbeeGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                        <views:SettingZigbee x:Name="SettingZigbeeControl" Margin="0 0 0 10"/>
+                    </Grid>
+                    <Grid x:Name="ZWaveGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
+                        <views:SettingZWave x:Name="SettingZWaveControl" Margin="0 0 0 10"/>
+                    </Grid>
                 </Grid>
-               <Grid x:Name="NetworkGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
-                   <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 0 0 10">
-                       <views:SettingNetwork x:Name="SettingNetworkControl"/>
-                   </ScrollViewer>
-               </Grid>
-               <Grid x:Name="BluetoothGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
-                    <ScrollViewer VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Margin="0 0 0 10">
-                        <views:SettingBluetooth x:Name="SettingBluetoothControl"/>
-                    </ScrollViewer>
-                </Grid>
-                <Grid x:Name="ZigbeeGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
-                    <views:SettingZigbee x:Name="SettingZigbeeControl" Margin="0 0 0 10"/>
-                </Grid>
-                <Grid x:Name="ZWaveGrid" Visibility="Collapsed" Width="{Binding ElementName=SettingContents, Path=Width}" Height="{Binding ElementName=SettingContents, Path=Height}">
-                    <views:SettingZWave x:Name="SettingZWaveControl" Margin="0 0 0 10"/>
-                </Grid>
-            </Grid>
-            
+            </Viewbox>
         </Grid>
-
-        <!--  Adaptive triggers  -->
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup x:Name="WindowStates">
-                <VisualState x:Name="WideState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="640"/>
-                    </VisualState.StateTriggers>
-                </VisualState>
-                <VisualState x:Name="NarrowState">
-                    <VisualState.StateTriggers>
-                        <AdaptiveTrigger MinWindowWidth="0"/>
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="TitlePage.Margin" Value="48,0,12,7"/>
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>
