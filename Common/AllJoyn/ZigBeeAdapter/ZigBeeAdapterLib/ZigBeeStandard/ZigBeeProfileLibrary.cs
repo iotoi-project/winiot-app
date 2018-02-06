@@ -90,6 +90,8 @@ namespace ZigbeeAdapterLib
             m_deviceTypesZigBeeHomeAutomation.Add(0x000A, new DeviceInfo("Door Lock", DeviceType.other));
             m_deviceTypesZigBeeHomeAutomation.Add(0x000B, new DeviceInfo("Door Lock Controller", DeviceType.other));
             m_deviceTypesZigBeeHomeAutomation.Add(0x000C, new DeviceInfo("Simple Sensor", DeviceType.other));
+
+            m_deviceTypesZigBeeHomeAutomation.Add(0x0051, new DeviceInfo("Smart Plug", DeviceType.other));
             //Lighting Group
             m_deviceTypesZigBeeHomeAutomation.Add(0x0100, new DeviceInfo("On-Off Light", DeviceType.onOffLight));
             m_deviceTypesZigBeeHomeAutomation.Add(0x0101, new DeviceInfo("Dimmable Light", DeviceType.dimmableLight));
