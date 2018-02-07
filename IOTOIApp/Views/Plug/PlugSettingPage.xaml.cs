@@ -25,6 +25,8 @@ namespace IOTOIApp.Views.Plug
             InitializeComponent();
 
             this.Loaded += new RoutedEventHandler(Page_Loaded);
+
+            ViewModel.InitDeviceStatusTH();
         }
 
         void Page_Loaded(object sender, RoutedEventArgs e)

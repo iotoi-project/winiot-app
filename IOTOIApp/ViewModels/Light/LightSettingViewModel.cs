@@ -57,25 +57,10 @@ namespace IOTOIApp.ViewModels.Light
 
         public ICommand SaveCommand { get; private set; }
 
+        ThreadPoolTimer PeriodicTimer;
+
         public LightSettingViewModel()
         {
-            LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
-            SaveButtonVisibility = (LightDeviceListSources.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
-
-            TimeSpan period = TimeSpan.FromSeconds(2);
-            ThreadPoolTimer PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
-            {
-                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    if (LightDeviceListSources.Count == 0 ||
-                        (LightDeviceListSources.Count != ZigbeeDeviceService.ZigbeeDeviceCount && ZigbeeDeviceService.ZigbeeDeviceCount != -1))
-                    {
-                        LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
-                        SaveButtonVisibility = (LightDeviceListSources.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
-                    }
-                });
-            }, period);
-
             BackButtonClickedCommand = new RelayCommand(BackButtonClicked);
 
             LightSelectionChangedCommand = new RelayCommand<ZigBeeEndDevice>(LightSelectionChanged);
@@ -83,11 +68,48 @@ namespace IOTOIApp.ViewModels.Light
             SaveCommand = new RelayCommand(Save);
         }
 
+        public void InitDeviceStatusTH()
+        {
+            LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
+            SaveButtonVisibility = (LightDeviceListSources.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+
+            TimeSpan period = TimeSpan.FromSeconds(2);
+            PeriodicTimer = ThreadPoolTimer.CreatePeriodicTimer(async (source) =>
+            {
+                await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (LightDeviceListSources.Count == 0 ||
+                        LightDeviceListSources.Count != ZigbeeDeviceService.ZigbeeDeviceCount)
+                    {
+                        if (ZigbeeDeviceService.ZigbeeDeviceCount != -1)
+                        {
+                            LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
+                            SaveButtonVisibility = (LightDeviceListSources.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
+                        }
+                    }
+                    else
+                    {
+                        if (ZigbeeDeviceService.ZigbeeDeviceCount > 0)
+                        {
+                            for (int i = 0; i < LightDeviceListSources.Count; i++)
+                            {
+                                if (LightDeviceListSources[i].MacAddress != ZigbeeDeviceService.ZigbeeDeviceListSources[i].MacAddress)
+                                {
+                                    LightDeviceListSources[i] = ZigbeeDeviceService.ZigbeeDeviceListSources[i];
+                                }
+                            }
+                        }
+                    }
+                });
+            }, period);
+        }
+
         private void BackButtonClicked()
         {
             if (NavigationService.CanGoBack)
             {
                 NavigationService.GoBack();
+                if (PeriodicTimer != null) PeriodicTimer.Cancel();
             }
         }
 
