@@ -22,13 +22,16 @@ namespace IOTOIApp.Services
         public static ObservableCollection<ZigBeeEndDevice> ZigbeeDeviceListSources = new ObservableCollection<ZigBeeEndDevice>();
         public static ObservableCollection<ZigBeeEndDevice> TmpZigbeeDeviceListSources = new ObservableCollection<ZigBeeEndDevice>();
 
-        private static ThreadPoolTimer PeriodicTimer;        
+        private static ThreadPoolTimer PeriodicTimer;
+
+        public static int ZigbeeDeviceCount = -1;
 
         public static void CloseEndDevices()
         {
             Debug.WriteLine("CloseEndDevices");
             if(PeriodicTimer != null) PeriodicTimer.Cancel();
             ZigbeeDeviceListSources.Clear();
+            ZigbeeDeviceCount = -1;
         }
 
         public static void GetEndDevices(ushort deviceId = 0)
@@ -56,25 +59,32 @@ namespace IOTOIApp.Services
                             bool IsDevice = false;
 
                             for(int i = ZigbeeDeviceListSources.Count - 1; i >=0; i--)
-                            { 
-                            //foreach (ZigBeeEndDevice endDevice in ZigbeeDeviceListSources)
-                            //{
-                                foreach (ZigBeeEndPoint endPoint in ZigbeeDeviceListSources[i].EndPoints)
+                            {
+                                if (!ZigbeeDeviceListSources[i].IsConnected)
                                 {
-                                    if (endPoint.DeviceId == deviceId)
+                                    IsDevice = false;
+                                }
+                                else
+                                {
+                                    foreach (ZigBeeEndPoint endPoint in ZigbeeDeviceListSources[i].EndPoints)
                                     {
-                                        IsDevice = true;
-                                        endPoint.CustomName = String.IsNullOrEmpty(endPoint.CustomName) ? "Device " + endPoint.EpNum : endPoint.CustomName;
-                                    }
-                                    else
-                                    {
-                                        IsDevice = false;
-                                        break;
+                                        if (endPoint.DeviceId == deviceId)
+                                        {
+                                            IsDevice = true;
+                                            endPoint.CustomName = String.IsNullOrEmpty(endPoint.CustomName) ? "Device " + endPoint.EpNum : endPoint.CustomName;
+                                        }
+                                        else
+                                        {
+                                            IsDevice = false;
+                                            break;
+                                        }
                                     }
                                 }
 
                                 if (!IsDevice) ZigbeeDeviceListSources.RemoveAt(i);
                             }
+
+                            ZigbeeDeviceCount = ZigbeeDeviceListSources.Count;
 
                             RunTimmer = true;
                         }

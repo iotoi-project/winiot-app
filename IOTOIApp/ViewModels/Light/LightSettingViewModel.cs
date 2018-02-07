@@ -68,7 +68,7 @@ namespace IOTOIApp.ViewModels.Light
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     if (LightDeviceListSources.Count == 0 ||
-                        LightDeviceListSources.Count < ZigbeeDeviceService.ZigbeeDeviceListSources.Count)
+                        (LightDeviceListSources.Count != ZigbeeDeviceService.ZigbeeDeviceCount && ZigbeeDeviceService.ZigbeeDeviceCount != -1))
                     {
                         LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
                         SaveButtonVisibility = (LightDeviceListSources.Count > 0) ? Visibility.Visible : Visibility.Collapsed;

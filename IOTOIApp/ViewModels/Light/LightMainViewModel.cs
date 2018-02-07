@@ -21,6 +21,7 @@ using IOTOIApp.Services;
 using IOTOI.Model.ZigBee;
 using IOTOIApp.Models;
 using IOTOIApp.ViewModels;
+using Windows.UI.Xaml;
 
 namespace IOTOIApp.ViewModels.Light
 {
@@ -46,6 +47,20 @@ namespace IOTOIApp.ViewModels.Light
         {
             get { return _lightDeviceSelectedItem; }
             set { Set(ref _lightDeviceSelectedItem, value); }
+        }
+
+        private Visibility _notFoundMsgVisibility = Visibility.Collapsed;
+        public Visibility NotFoundMsgVisibility
+        {
+            get { return _notFoundMsgVisibility; }
+            set { Set(ref _notFoundMsgVisibility, value); }
+        }
+
+        private Visibility _settingsButtonVisibility = Visibility.Collapsed;
+        public Visibility SettingsButtonVisibility
+        {
+            get { return _settingsButtonVisibility; }
+            set { Set(ref _settingsButtonVisibility, value); }
         }
 
         public ICommand BackButtonClickedCommand { get; private set; }
@@ -105,13 +120,27 @@ namespace IOTOIApp.ViewModels.Light
                         {
                             RunTimmer = false;
 
-                            if (LightDeviceListSources.Count == 0 || LightDeviceListSources.Count < ZigbeeDeviceService.ZigbeeDeviceListSources.Count)
+                            if (LightDeviceListSources.Count == 0 || LightDeviceListSources.Count != ZigbeeDeviceService.ZigbeeDeviceCount)
                             {
-                                LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
+                                if(ZigbeeDeviceService.ZigbeeDeviceCount != -1)
+                                {
+                                    LightDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
+
+                                    if (LightDeviceListSources.Count > 0)
+                                    {
+                                        NotFoundMsgVisibility = Visibility.Collapsed;
+                                        SettingsButtonVisibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        NotFoundMsgVisibility = Visibility.Visible;
+                                        SettingsButtonVisibility = Visibility.Collapsed;
+                                    }
+                                }
                             }
                             else
                             {
-                                if(ZigbeeDeviceService.ZigbeeDeviceListSources.Count > 0)
+                                if(ZigbeeDeviceService.ZigbeeDeviceCount > 0)
                                 {
                                     for (int i = 0; i < LightDeviceListSources.Count; i++)
                                     {
@@ -123,6 +152,7 @@ namespace IOTOIApp.ViewModels.Light
                                 }
                             }
                         }
+
                     }catch(Exception e)
                     {
                         Debug.WriteLine("STartTH Exception : " + e.Message);

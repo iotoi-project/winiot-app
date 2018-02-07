@@ -15,6 +15,7 @@ using Windows.UI.Core;
 using Newtonsoft.Json;
 using Windows.Foundation.Collections;
 using System.Linq;
+using Windows.UI.Xaml;
 
 namespace IOTOIApp.ViewModels.Plug
 {
@@ -41,6 +42,20 @@ namespace IOTOIApp.ViewModels.Plug
         {
             get { return _plugDeviceSelectedItem;  }
             set { Set(ref _plugDeviceSelectedItem, value); }
+        }
+
+        private Visibility _notFoundMsgVisibility = Visibility.Collapsed;
+        public Visibility NotFoundMsgVisibility
+        {
+            get { return _notFoundMsgVisibility; }
+            set { Set(ref _notFoundMsgVisibility, value); }
+        }
+
+        private Visibility _settingsButtonVisibility = Visibility.Collapsed;
+        public Visibility SettingsButtonVisibility
+        {
+            get { return _settingsButtonVisibility; }
+            set { Set(ref _settingsButtonVisibility, value); }
         }
 
         public ICommand BackButtonClickedCommand { get; private set; }
@@ -94,14 +109,27 @@ namespace IOTOIApp.ViewModels.Plug
                         {
                             RunTimmer = false;
 
-                            if (PlugDeviceListSources.Count == 0 || PlugDeviceListSources.Count < ZigbeeDeviceService.ZigbeeDeviceListSources.Count)
+                            if (PlugDeviceListSources.Count == 0 || (PlugDeviceListSources.Count != ZigbeeDeviceService.ZigbeeDeviceCount))
                             {
-                                PlugDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
-                                
+                                if (ZigbeeDeviceService.ZigbeeDeviceCount != -1)
+                                {
+                                    PlugDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
+
+                                    if (PlugDeviceListSources.Count > 0)
+                                    {
+                                        NotFoundMsgVisibility = Visibility.Collapsed;
+                                        SettingsButtonVisibility = Visibility.Visible;
+                                    }
+                                    else
+                                    {
+                                        NotFoundMsgVisibility = Visibility.Visible;
+                                        SettingsButtonVisibility = Visibility.Collapsed;
+                                    }
+                                }
                             }
                             else
                             {
-                                if (ZigbeeDeviceService.ZigbeeDeviceListSources.Count > 0)
+                                if (ZigbeeDeviceService.ZigbeeDeviceCount > 0)
                                 {
                                     for (int i = 0; i < PlugDeviceListSources.Count; i++)
                                     {

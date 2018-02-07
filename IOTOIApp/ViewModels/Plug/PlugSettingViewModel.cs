@@ -59,7 +59,7 @@ namespace IOTOIApp.ViewModels.Plug
                 await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     if (PlugDeviceListSources.Count == 0 ||
-                        PlugDeviceListSources.Count < ZigbeeDeviceService.ZigbeeDeviceListSources.Count)
+                        PlugDeviceListSources.Count != ZigbeeDeviceService.ZigbeeDeviceCount && ZigbeeDeviceService.ZigbeeDeviceCount != -1)
                     {
                         PlugDeviceListSources = ZigbeeDeviceService.ZigbeeDeviceListSources;
                         SaveButtonVisibility = (PlugDeviceListSources.Count > 0) ? Visibility.Visible : Visibility.Collapsed;
