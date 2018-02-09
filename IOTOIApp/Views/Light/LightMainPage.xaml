@@ -171,11 +171,15 @@
                         <TransitionCollection/>
                     </ListView.ItemContainerTransitions>
                 </ListView>
-
             </Viewbox>
+            <TextBlock Text="Light device is not found. You can add light devices at Settings."
+                       FontSize="22" Foreground="#ffffcb00" 
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Visibility="{x:Bind ViewModel.NotFoundMsgVisibility, Mode=OneWay}"/>
         </Grid>
 
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="top" Padding="0, 5, 50, 0">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="top" Padding="0, 5, 50, 0"
+                    Visibility="{x:Bind ViewModel.SettingsButtonVisibility, Mode=OneWay}">
             <Button Content="All OFF" Height="24" Width="78" FontSize="13" Style="{StaticResource AllOffButtonStyle}" HorizontalAlignment="Center" Margin="0, 0, 10, 0"
                     Command="{x:Bind ViewModel.AllOffButtonClickCommand}"/>
             <Button Content="&#xE115;" FontFamily="Segoe MDL2 Assets" FontSize="23"

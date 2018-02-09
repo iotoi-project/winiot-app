@@ -167,7 +167,7 @@ namespace IOTOIApp.ViewModels
             Debug.WriteLine("network status changed");
         }
 
-        public void CheckCCTVStreaming()
+        public async void CheckCCTVStreaming()
         {
             Debug.WriteLine("CheckCCTVStreaming Start");
             CCTVSymbolColor = DeactivatedSymbolColor;
@@ -175,9 +175,15 @@ namespace IOTOIApp.ViewModels
             {
                 foreach(IOTOI.Model.CCTV cctv in db.CCTV.ToList()){
                     if(!String.IsNullOrEmpty(cctv.CCTVType)) {
-                        CCTVSymbolColor = ActivatedSymbolColor;
-                        Debug.WriteLine("CCTVStreaming Activated");
-                        break;
+
+                        string CCTVType = await CCTVTypeService.GetCCTVType(cctv);
+
+                        if(!String.IsNullOrEmpty(CCTVType))
+                        {
+                            CCTVSymbolColor = ActivatedSymbolColor;
+                            Debug.WriteLine("CCTVStreaming Activated");
+                            break;
+                        }
                     }
                 }
             }
