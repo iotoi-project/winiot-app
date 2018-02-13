@@ -197,11 +197,10 @@ namespace ZigbeeAdapterLib
                     this.Vendor = (String)value;
                     //loggingServices.WriteLine<ZigBeeEndPoint>(" Vendor = [" + this.Vendor + "]");
                 }
-                else
-                {
-                    //loggingServices.WriteLine<ZigBeeEndPoint>(" No Vendor");
-                    this.Vendor = null;
-                }
+                //else
+                //{
+                //    loggingServices.WriteLine<ZigBeeEndPoint>(" No Vendor");
+                //}
             }
             if (m_basicCluster.InternalAttributeList.TryGetValue(BasicCluster.ATTRIBUTE_MODEL_IDENTIFIER, out attribute))
             {
@@ -211,11 +210,10 @@ namespace ZigbeeAdapterLib
                     this.Model = (String)value;
                     //loggingServices.WriteLine<ZigBeeEndPoint>(" Model = [" + this.Model + "]");
                 }
-                else
-                {
-                    //loggingServices.WriteLine<ZigBeeEndPoint>(" No Model");
-                    this.Model = null;
-                }
+                //else
+                //{
+                //    loggingServices.WriteLine<ZigBeeEndPoint>(" No Model");
+                //}
             }
             if (m_basicCluster.InternalAttributeList.TryGetValue(BasicCluster.ATTRIBUTE_HW_VERSION, out attribute))
             {
@@ -350,8 +348,8 @@ namespace ZigbeeAdapterLib
             Signals.Add(changeOfAttributeValue);
         }
 
-        private const string UNKNOWN_MANUFACTURER = "Unknown";
-        private const string UNKNOWN_MODEL = "Unknown";
+        private const string UNKNOWN_MANUFACTURER = "Unknown vendor";
+        private const string UNKNOWN_MODEL = "Unknown model";
         private const string UNKNOWN_VERSION = "";
         private const string UNKNOWN_NAME = "Unknown";
         private const string NO_DESCRIPTION = "No description";
