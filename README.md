@@ -33,4 +33,4 @@ Here is the [Developer Guide](https://doc.iotoi.io)
     * Z-Wave(in developing)
 
 ## More information
-Visit our community site - [IoToI Open Source Project](https://iotoi.io/community) and [Developer Guide](https://doc.iotoi.io)
+Visit our community site - [IOTOI Developer Community](https://iotoi.io) and [Developer Guide](https://doc.iotoi.io)
